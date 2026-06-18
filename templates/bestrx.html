@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }} — Sandbox</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+</head>
+<body class="page-workspace">
+{% macro render_field(f) -%}
+<div class="field field-prov status-ok" data-field="{{ f.id }}">
+  <div class="field-label-row">
+    <label>{{ f.label }}</label>
+    <span class="field-status ok" title="Found" aria-label="Found">&#10003;</span>
+    <span class="tip-anchor">
+      <button type="button" class="info-tip" aria-label="Data source" aria-expanded="false">i</button>
+      <div class="tip-card" hidden>
+        <div class="tip-row"><span class="tip-k">Resource</span> <span class="tip-v tip-resource"></span></div>
+        <div class="tip-row"><span class="tip-k">Data point</span> <span class="tip-v tip-path"></span></div>
+      </div>
+    </span>
+  </div>
+  {% if f.multiline %}
+  <textarea readonly rows="3">{{ f.value }}</textarea>
+  {% else %}
+  <input type="text" readonly value="{{ f.value }}" />
+  {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro render_nodes(nodes) -%}
+{% set fields = nodes | selectattr("type", "equalto", "field") | list %}
+{% set groups = nodes | selectattr("type", "equalto", "group") | list %}
+{% if fields %}
+<div class="grid-2">
+  {% for f in fields %}{{ render_field(f) }}{% endfor %}
+</div>
+{% endif %}
+{% for g in groups %}
+<div class="subpanel">
+  <h3 class="subhead">{{ g.title }}</h3>
+  {{ render_nodes(g.children) }}
+</div>
+{% endfor %}
+{%- endmacro %}
+
+  <aside class="rail" aria-label="Pharmacy workspace">
+    <nav class="rail-ehr-nav">
+      <a class="rail-ehr active" href="{{ url_for('pharmacy', system=system) }}" title="{{ title }}" aria-current="page">
+        <img src="{{ url_for('static', filename='logos/' ~ system ~ '.png') }}" alt="{{ title }}" width="40" height="40"
+             onerror="this.style.display='none'; this.parentNode.textContent='Rx';" />
+      </a>
+    </nav>
+    <div class="rail-footer">
+      <a class="rail-footer-link" href="{{ url_for('home') }}" title="Home">&#8962;</a>
+    </div>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="{{ url_for('home') }}">&larr; Go Back</a>
+        <div class="title-user-row">
+          <h1 class="form-title">{{ title }}</h1>
+          {% if user_options %}
+          <div class="user-slot-wrap">
+            <label for="user-slot-select" class="user-slot-label">Test user</label>
+            <select id="user-slot-select" class="user-slot-select" aria-label="Test user">
+              {% for u in user_options %}
+              <option value="{{ url_for('pharmacy', system=system) }}" {% if loop.first %}selected{% endif %}>{{ u.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    {% if error %}
+    <div class="alert alert-warn">{{ error }}</div>
+    {% endif %}
+
+    <div class="form-layout">
+      <div class="form-scroll">
+        {% for sec in sections %}
+        <section class="panel" id="sec-{{ sec.id }}">
+          <div class="panel-head"><h2>{{ sec.title }}</h2></div>
+          {% if sec.nodes %}
+          {{ render_nodes(sec.nodes) }}
+          {% else %}
+          <p class="muted small">No data available.</p>
+          {% endif %}
+        </section>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__FIELD_SRC__ = {{ (field_src or {}) | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='workspace.js') }}"></script>
+</body>
+</html>

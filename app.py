@@ -9,12 +9,29 @@ import secrets
 
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 
+from bestrx import list_bestrx_previews, load_bestrx
 from exports import list_test_user_previews, load_ehr_from_export
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("DASHBOARD_FLASK_SECRET", secrets.token_hex(32))
 
 EHRS = ("epic", "ecw", "nextgen", "iknowmed")
+
+# Pharmacy management platforms (non-FHIR; loaded via bestrx.py).
+PHARMACY_SYSTEMS = ("bestrx",)
+
+# Centralized display names for every system shown in the UI.
+DISPLAY_NAMES: dict[str, str] = {
+    "epic": "Epic",
+    "ecw": "eClinicalWorks",
+    "nextgen": "NextGen",
+    "iknowmed": "iKnowMed",
+    "bestrx": "BestRx",
+}
+
+
+def display_name(system_id: str) -> str:
+    return DISPLAY_NAMES.get(system_id, system_id)
 
 # Fields absent from the sample data but obtainable from a known FHIR resource.
 # Shown as a yellow tick (instead of red cross) in the master view only, and the
@@ -65,10 +82,39 @@ def _parse_slot_arg() -> str | None:
     return raw
 
 
+def _ehr_card(system_id: str) -> dict:
+    return {
+        "id": system_id,
+        "name": display_name(system_id),
+        "href": url_for("workspace", ehr=system_id),
+        "logo": url_for("static", filename=f"logos/{system_id}.png"),
+        "previews": list_test_user_previews(system_id),
+    }
+
+
+def _pharmacy_card(system_id: str) -> dict:
+    return {
+        "id": system_id,
+        "name": display_name(system_id),
+        "href": url_for("pharmacy", system=system_id),
+        "logo": url_for("static", filename=f"logos/{system_id}.png"),
+        "previews": list_bestrx_previews() if system_id == "bestrx" else [],
+    }
+
+
 @app.route("/")
 def home():
-    previews = {e: list_test_user_previews(e) for e in EHRS}
-    return render_template("home.html", ehrs=EHRS, ehr_previews=previews)
+    categories = [
+        {
+            "name": "Electronic Health Record (EHR)",
+            "systems": [_ehr_card(e) for e in EHRS],
+        },
+        {
+            "name": "Pharmacy Management Platform",
+            "systems": [_pharmacy_card(p) for p in PHARMACY_SYSTEMS],
+        },
+    ]
+    return render_template("home.html", categories=categories)
 
 
 @app.route("/workspace")
@@ -110,6 +156,24 @@ def workspace():
         current_slot=current_slot,
         is_master=is_master,
         gettable=gettable,
+    )
+
+
+@app.route("/pharmacy")
+def pharmacy():
+    system = (request.args.get("system") or "bestrx").lower()
+    if system not in PHARMACY_SYSTEMS:
+        return redirect(url_for("home"))
+
+    data, err = load_bestrx()
+    return render_template(
+        "bestrx.html",
+        system=system,
+        title=display_name(system),
+        sections=(data or {}).get("sections") or [],
+        field_src=(data or {}).get("field_src") or {},
+        error=err,
+        user_options=list_bestrx_previews(),
     )
 
 
