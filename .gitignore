@@ -1,6 +1,12 @@
 # Python virtual environment
 venv/
 .venv/
+.deps/
+
+# Firebase build output / logs
+public/
+firebase-debug.log
+.firebase/
 
 # Byte-compiled / cache
 __pycache__/

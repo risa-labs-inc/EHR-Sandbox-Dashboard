@@ -1,0 +1,39 @@
+name: Deploy to Firebase Hosting (prod)
+
+# Auto-deploys the dashboard to https://ehr-sandbox.web.app whenever main is updated.
+# The site is a Flask app frozen to static HTML by freeze.py, then served by Firebase Hosting.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: firebase-hosting-prod
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build static site (freeze Flask -> public/)
+        run: python freeze.py
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: rapids-platform
+          channelId: live
