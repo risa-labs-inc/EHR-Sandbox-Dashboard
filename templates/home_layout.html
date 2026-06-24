@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Health Data Atlas{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+</head>
+<body class="page-home">
+  <div class="home-wrap">
+    <header class="home-header">
+      <div class="home-risa-brand">
+        <img
+          class="home-risa-logo"
+          src="{{ url_for('static', filename='logos/risa.jpeg') }}"
+          alt="RISA"
+          width="200"
+          height="80"
+        />
+      </div>
+      <div class="home-header-text">
+        <h1>{% block page_heading %}Health Data Atlas{% endblock %}</h1>
+        <p class="muted">{% block subtitle %}Mapping the healthcare data ecosystem — what exists, where, and how to use it!{% endblock %}</p>
+      </div>
+      <nav class="home-top-nav" aria-label="Atlas views">
+        <a
+          class="home-nav-link{% if active_tab == 'atlas' %} active{% endif %}"
+          href="{{ url_for('home') }}"
+          {% if active_tab == 'atlas' %}aria-current="page"{% endif %}
+        >Atlas</a>
+        <a
+          class="home-nav-link{% if active_tab == 'guide' %} active{% endif %}"
+          href="{{ url_for('platform_guide') }}"
+          {% if active_tab == 'guide' %}aria-current="page"{% endif %}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 4v14a2 2 0 0 0 2 2h10" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Platform Guide
+        </a>
+      </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+  </div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
