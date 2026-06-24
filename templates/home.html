@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boss HealthCare Interoperability Platform</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+  {% include "_auth_head.html" %}
 </head>
 <body class="page-home">
+  {% include "_auth_badge.html" %}
   <div class="home-wrap">
     <header class="home-header">
       <div class="home-risa-brand">

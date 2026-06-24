@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title }} — Sandbox</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+  {% include "_auth_head.html" %}
 </head>
 <body class="page-workspace">
+{% include "_auth_badge.html" %}
 {% macro render_field(f) -%}
 <div class="field field-prov status-ok" data-field="{{ f.id }}">
   <div class="field-label-row">

@@ -177,6 +177,11 @@ def pharmacy():
     )
 
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+
 @app.route("/api/context")
 def api_context():
     ehr = (request.args.get("ehr") or session.get("active_ehr") or "epic").lower()

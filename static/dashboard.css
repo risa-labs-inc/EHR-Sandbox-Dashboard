@@ -590,3 +590,89 @@ html:has(body.page-workspace) {
   background: #fff9db;
   border-color: #ffe066;
 }
+
+/* ===== Auth: login page + sign-out badge ===== */
+.page-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef1f5 0%, #dde6f3 100%);
+  padding: 24px;
+}
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(20, 30, 50, 0.12);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+.login-logo { object-fit: contain; margin-bottom: 8px; }
+.login-title {
+  font-size: 20px;
+  line-height: 1.3;
+  margin: 12px 0 6px;
+  color: var(--text);
+}
+.login-sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font);
+  color: #3c4043;
+  background: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.google-btn:hover { background: #f8f9fa; box-shadow: 0 1px 3px rgba(60, 64, 67, 0.2); }
+.google-btn:active { background: #f1f3f4; }
+.login-error {
+  margin: 18px 0 0;
+  color: var(--danger);
+  font-size: 13px;
+  background: #fff5f5;
+  border: 1px solid #ffc9c9;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.auth-badge {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 6px 5px 14px;
+  box-shadow: 0 2px 8px rgba(20, 30, 50, 0.1);
+  font-size: 12px;
+  backdrop-filter: blur(4px);
+}
+.auth-badge-email { color: var(--muted); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.auth-badge-out {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: #eef3ff;
+  border: 1px solid #d3e0ff;
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.auth-badge-out:hover { background: #e0eaff; }

@@ -49,6 +49,11 @@ def main() -> None:
     assert resp.status_code == 200, resp.status_code
     write(OUT / "index.html", resp.get_data(as_text=True))
 
+    # Login page (auth gate target)
+    resp = client.get("/login")
+    assert resp.status_code == 200, resp.status_code
+    write(OUT / "login.html", resp.get_data(as_text=True))
+
     # Workspace pages: one per ehr x slot, plus a bare default (master) page per ehr.
     for ehr in EHRS:
         resp = client.get(f"/workspace?ehr={ehr}")
