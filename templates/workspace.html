@@ -8,7 +8,6 @@
   {% include "_auth_head.html" %}
 </head>
 <body class="page-workspace">
-{% include "_auth_badge.html" %}
 {% macro status_icon(status, note=none) -%}
 <span class="field-status {{ status }}" title="{% if status == 'ok' %}Found{% elif status == 'maybe' %}Not in this sample — obtainable from {{ note.resource }} · {{ note.path }}{% else %}Not found{% endif %}" aria-label="{% if status == 'ok' %}Found{% elif status == 'maybe' %}Obtainable{% else %}Not found{% endif %}">{{ '✗' if status == 'no' else '✓' }}</span>
 {%- endmacro %}
