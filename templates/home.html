@@ -1,58 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boss HealthCare Interoperability Platform</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
-  {% include "_auth_head.html" %}
-</head>
-<body class="page-home">
-  {% include "_auth_badge.html" %}
-  <div class="home-wrap">
-    <header class="home-header">
-      <div class="home-risa-brand">
-        <img
-          class="home-risa-logo"
-          src="{{ url_for('static', filename='logos/risa.jpeg') }}"
-          alt="RISA"
-          width="200"
-          height="80"
-        />
-      </div>
-      <div class="home-header-text">
-        <h1>Boss HealthCare Interoperability Platform</h1>
-        <p class="muted">Select a platform to open its sandbox workspace. Each card lists saved test users from that system.</p>
-      </div>
-    </header>
+{% extends "home_layout.html" %}
 
-    {% for cat in categories %}
-    <section class="home-category">
-      <h2 class="home-category-title">{{ cat.name }}</h2>
-      <div class="card-grid">
-        {% for s in cat.systems %}
-        <a class="ehr-card" href="{{ s.href }}">
-          <span class="ehr-card-logo" aria-hidden="true">
-            <img src="{{ s.logo }}" alt="{{ s.name }}" width="160" height="56" onerror="this.style.display='none'" />
-          </span>
-          <span class="ehr-card-title">{{ s.name }}</span>
-          {% if s.previews %}
-          <div class="ehr-card-users" role="list">
-            <div class="ehr-card-users-title">Test users</div>
-            <ul class="ehr-card-users-list">
-              {% for u in s.previews %}
-              <li role="listitem"><span class="ehr-user-name">{{ u.label }}</span></li>
-              {% endfor %}
-            </ul>
+{% block content %}
+{% for cat in categories %}
+<section class="home-category">
+  <h2 class="home-category-title">{{ cat.name }}</h2>
+  <div class="card-grid">
+    {% for s in cat.systems %}
+    <a class="ehr-card" href="{{ s.href }}">
+      <span class="ehr-card-logo" aria-hidden="true">
+        <img src="{{ s.logo }}" alt="{{ s.name }}" width="200" height="80" onerror="this.style.display='none'" />
+      </span>
+      <span class="ehr-card-title">{{ s.name }}</span>
+      {% if s.previews %}
+      {% set master_count = s.previews | selectattr('is_master') | list | length %}
+      {% set user_count = s.previews | rejectattr('is_master') | list | length %}
+      <div
+        class="ehr-card-roster"
+        aria-label="{{ master_count }} master{% if user_count %}, {{ user_count }} test user{{ 's' if user_count != 1 else '' }}{% endif %}"
+      >
+        {% if master_count %}
+        <div class="atlas-tile atlas-tile-master" title="Master record — richest merged dataset">
+          <div class="atlas-tile-icon-wrap atlas-tile-icon-wrap-master">
+            <svg class="atlas-icon-db" width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <ellipse cx="12" cy="6" rx="7" ry="2.8" fill="currentColor"/>
+              <path d="M5 6v4.5c0 1.55 3.13 2.8 7 2.8s7-1.25 7-2.8V6" fill="currentColor" opacity="0.82"/>
+              <path d="M5 10.5V15c0 1.55 3.13 2.8 7 2.8s7-1.25 7-2.8v-4.5" fill="currentColor" opacity="0.64"/>
+            </svg>
+            <span class="atlas-icon-shield" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z"/>
+                <path d="M9.5 12.2l1.8 1.8 4-4.2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </span>
           </div>
-          {% else %}
-          <p class="ehr-card-empty muted small">No <code>{{ s.id }}</code> exports yet.</p>
+          <span class="atlas-tile-label">Master</span>
+        </div>
+        {% endif %}
+        {% if user_count %}
+        <div
+          class="atlas-tile atlas-tile-users"
+          data-user-count="{{ user_count }}"
+          title="{{ user_count }} test user{{ 's' if user_count != 1 else '' }}"
+        >
+          {% if user_count > 1 %}
+          <div class="atlas-tile-layers" aria-hidden="true">
+            {% if user_count > 3 %}
+            <span class="atlas-layer atlas-layer-deep"></span>
+            {% endif %}
+            {% if user_count > 2 %}
+            <span class="atlas-layer atlas-layer-back"></span>
+            {% endif %}
+            <span class="atlas-layer atlas-layer-mid"></span>
+          </div>
           {% endif %}
-        </a>
-        {% endfor %}
+          <div class="atlas-tile-face">
+            <div class="atlas-tile-icon-wrap">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="9" cy="8" r="3.2" opacity="0.95"/>
+                <path d="M3.5 18.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5v1.5H3.5V18.5z" opacity="0.95"/>
+                <circle cx="16.5" cy="9" r="2.6" opacity="0.65"/>
+                <path d="M13.5 18.5c.3-2.2 1.8-3.8 4-4.2 2.5-.4 4.5 1.2 5 3.5.1.5.1 1 .1 1.2h-9.1v-.5z" opacity="0.65"/>
+              </svg>
+            </div>
+            <span class="atlas-tile-label">Test Users</span>
+            <span class="atlas-tile-badge">{{ user_count }}</span>
+          </div>
+        </div>
+        {% endif %}
       </div>
-    </section>
+      {% else %}
+      <p class="ehr-card-empty muted small">No <code>{{ s.id }}</code> exports yet.</p>
+      {% endif %}
+    </a>
     {% endfor %}
   </div>
-</body>
-</html>
+</section>
+{% endfor %}
+{% endblock %}

@@ -13,9 +13,22 @@ from pathlib import Path
 
 from app import EHRS, PHARMACY_SYSTEMS, app
 from exports import list_test_user_previews
+from platform_guide import resolve_download_path
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "public"
+
+# Export files referenced by /download/<sys>/<slot> links, copied to public/downloads/.
+DOWNLOADS: dict[str, Path] = {}
+
+
+def _download_sub(m: "re.Match[str]") -> str:
+    system_id, slot = m.group(1), m.group(2)
+    src = resolve_download_path(system_id, slot)
+    if not src or not src.is_file():
+        return m.group(0)
+    DOWNLOADS[src.name] = src
+    return "/downloads/" + src.name
 
 
 def rewrite_links(html: str) -> str:
@@ -26,6 +39,10 @@ def rewrite_links(html: str) -> str:
     html = re.sub(r"/workspace\?ehr=(\w+)", r"/workspace/\1.html", html)
     # /pharmacy?system=X -> static pharmacy page
     html = re.sub(r"/pharmacy\?system=(\w+)", r"/pharmacy/\1.html", html)
+    # /download/<sys>/<slot> -> static export file under /downloads/
+    html = re.sub(r"/download/([\w-]+)/([\w-]+)", _download_sub, html)
+    # /guide -> static guide page
+    html = html.replace('"/guide"', '"/guide.html"')
     # logout just returns home on a static site
     html = html.replace("/logout-session", "/")
     return html
@@ -54,6 +71,11 @@ def main() -> None:
     assert resp.status_code == 200, resp.status_code
     write(OUT / "login.html", resp.get_data(as_text=True))
 
+    # Platform guide
+    resp = client.get("/guide")
+    assert resp.status_code == 200, resp.status_code
+    write(OUT / "guide.html", resp.get_data(as_text=True))
+
     # Workspace pages: one per ehr x slot, plus a bare default (master) page per ehr.
     for ehr in EHRS:
         resp = client.get(f"/workspace?ehr={ehr}")
@@ -75,6 +97,14 @@ def main() -> None:
     # Static assets (css/js/logos) served at /static/...
     shutil.copytree(ROOT / "static", OUT / "static")
     print("  copied static/ -> public/static/")
+
+    # Export files referenced by download links (collected during link rewriting).
+    if DOWNLOADS:
+        dl_dir = OUT / "downloads"
+        dl_dir.mkdir(parents=True, exist_ok=True)
+        for name, src in DOWNLOADS.items():
+            shutil.copy2(src, dl_dir / name)
+        print(f"  copied {len(DOWNLOADS)} export file(s) -> public/downloads/")
 
     print(f"\nDone. Static site in {OUT}")
 

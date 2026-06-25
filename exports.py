@@ -199,6 +199,52 @@ def peek_user_preview(path: Path, ehr: str) -> tuple[str, str]:
     return label, dob
 
 
+def peek_user_gender(path: Path, ehr: str) -> str:
+    """Patient gender for home-card icons: 'male', 'female', or 'unknown'."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return "unknown"
+    ehr = ehr.lower()
+    gender: str | None = None
+    if ehr == "ecw":
+        ps = raw.get("patient_summary")
+        if isinstance(ps, dict):
+            gender = ps.get("gender")
+        if not gender:
+            for block in raw.get("resources") or []:
+                if not isinstance(block, dict):
+                    continue
+                rw = block.get("raw")
+                if not isinstance(rw, dict):
+                    continue
+                if rw.get("resourceType") == "Patient":
+                    gender = rw.get("gender")
+                    break
+                if rw.get("resourceType") == "Bundle":
+                    for entry in rw.get("entry") or []:
+                        res = (entry or {}).get("resource") or {}
+                        if res.get("resourceType") == "Patient":
+                            gender = res.get("gender")
+                            break
+                if gender:
+                    break
+    else:
+        res = raw.get("resources") or {}
+        if isinstance(res, dict):
+            pb = res.get("patient") or res.get("Patient")
+            if isinstance(pb, dict):
+                inner = pb.get("data") if isinstance(pb.get("data"), dict) else pb
+                if isinstance(inner, dict):
+                    gender = inner.get("gender")
+    g = str(gender or "").lower()
+    if g in ("male", "m"):
+        return "male"
+    if g in ("female", "f"):
+        return "female"
+    return "unknown"
+
+
 def list_test_user_previews(ehr: str) -> list[dict[str, Any]]:
     """Picker entries: master sample first (default), then one per export slot."""
     ehr = ehr.lower()
@@ -224,6 +270,7 @@ def list_test_user_previews(ehr: str) -> list[dict[str, Any]]:
                 "detail": detail,
                 "filename": path.name,
                 "is_master": False,
+                "gender": peek_user_gender(path, ehr),
             }
         )
     return out

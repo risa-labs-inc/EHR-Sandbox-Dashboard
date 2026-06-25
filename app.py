@@ -7,10 +7,11 @@ from __future__ import annotations
 import os
 import secrets
 
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, jsonify, redirect, render_template, request, send_file, session, url_for
 
 from bestrx import list_bestrx_previews, load_bestrx
 from exports import list_test_user_previews, load_ehr_from_export
+from platform_guide import build_platform, resolve_download_path
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("DASHBOARD_FLASK_SECRET", secrets.token_hex(32))
@@ -102,6 +103,21 @@ def _pharmacy_card(system_id: str) -> dict:
     }
 
 
+def _guide_categories() -> list[dict]:
+    return [
+        {
+            "name": "Electronic Health Record (EHR)",
+            "platforms": [build_platform(e, display_name(e), "ehr") for e in EHRS],
+        },
+        {
+            "name": "Pharmacy Management Platform",
+            "platforms": [
+                build_platform(p, display_name(p), "pharmacy") for p in PHARMACY_SYSTEMS
+            ],
+        },
+    ]
+
+
 @app.route("/")
 def home():
     categories = [
@@ -114,7 +130,29 @@ def home():
             "systems": [_pharmacy_card(p) for p in PHARMACY_SYSTEMS],
         },
     ]
-    return render_template("home.html", categories=categories)
+    return render_template("home.html", categories=categories, active_tab="atlas")
+
+
+@app.route("/guide")
+def platform_guide():
+    return render_template(
+        "platform_guide.html",
+        categories=_guide_categories(),
+        active_tab="guide",
+    )
+
+
+@app.route("/download/<system_id>/<slot>")
+def download_export(system_id: str, slot: str):
+    path = resolve_download_path(system_id, slot)
+    if not path or not path.is_file():
+        return "Export not found", 404
+    return send_file(
+        path,
+        mimetype="application/json",
+        as_attachment=True,
+        download_name=path.name,
+    )
 
 
 @app.route("/workspace")
