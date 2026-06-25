@@ -110,7 +110,7 @@ def _guide_categories() -> list[dict]:
             "platforms": [build_platform(e, display_name(e), "ehr") for e in EHRS],
         },
         {
-            "name": "Pharmacy Management Platform",
+            "name": "Pharmacy Management Systems",
             "platforms": [
                 build_platform(p, display_name(p), "pharmacy") for p in PHARMACY_SYSTEMS
             ],
@@ -126,7 +126,7 @@ def home():
             "systems": [_ehr_card(e) for e in EHRS],
         },
         {
-            "name": "Pharmacy Management Platform",
+            "name": "Pharmacy Management Systems",
             "systems": [_pharmacy_card(p) for p in PHARMACY_SYSTEMS],
         },
     ]
