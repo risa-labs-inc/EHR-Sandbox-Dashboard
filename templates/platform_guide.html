@@ -41,6 +41,17 @@
       <p class="guide-text">{{ p.what_it_is }}</p>
     </div>
 
+    {% if p.research_links %}
+    <div class="guide-section">
+      <h4 class="guide-section-title">RISA research notes</h4>
+      <ul class="guide-link-list">
+        {% for link in p.research_links %}
+        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
     <div class="guide-section">
       <h4 class="guide-section-title">{% if p.is_fhir %}FHIR &amp; API resources{% else %}API resources{% endif %}</h4>
       <ul class="guide-link-list">

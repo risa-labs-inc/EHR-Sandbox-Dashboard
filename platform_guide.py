@@ -35,6 +35,12 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {"label": "FHIR R4 specification (HL7)", "url": "https://hl7.org/fhir/R4/"},
         ],
         "is_fhir": True,
+        "research_links": [
+            {
+                "label": "Sandbox Outputs — Notion research",
+                "url": "https://app.notion.com/p/Sandbox-Outputs-366e5f5a1a628032bd73d11d2f4558d3",
+            },
+        ],
         "test_patient_resources": [
             {
                 "label": "Epic sandbox test patients",
@@ -56,6 +62,12 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {"label": "SMART App Launch", "url": "https://hl7.org/fhir/smart-app-launch/"},
         ],
         "is_fhir": True,
+        "research_links": [
+            {
+                "label": "eClinical Works Sandbox — Notion research",
+                "url": "https://app.notion.com/p/eClinical-Works-Sandbox-36de5f5a1a6280318b06ef3fb51f9493",
+            },
+        ],
     },
     "nextgen": {
         "what_it_is": (
@@ -70,6 +82,12 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             },
         ],
         "is_fhir": True,
+        "research_links": [
+            {
+                "label": "NextGen Sandbox Integration — Notion research",
+                "url": "https://app.notion.com/p/Nextgen-Sandbox-Integration-373e5f5a1a6280ebb98eecdb2ddce524",
+            },
+        ],
         "test_patient_credentials": [
             {
                 "patient_id": "HF428946492",
@@ -97,6 +115,12 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             },
         ],
         "is_fhir": True,
+        "research_links": [
+            {
+                "label": "iKnowMed (IKM) — Notion research",
+                "url": "https://app.notion.com/p/iKnowMed-IKM-372e5f5a1a6280298507f834c2900f53",
+            },
+        ],
     },
     "bestrx": {
         "what_it_is": (
@@ -446,6 +470,7 @@ def build_platform(system_id: str, display_name: str, category: str) -> dict[str
         "test_patient_resources": copy.get("test_patient_resources") or [],
         "test_patient_credentials": copy.get("test_patient_credentials") or [],
         "sample_output_links": copy.get("sample_output_links") or [],
+        "research_links": copy.get("research_links") or [],
         "show_sandbox_endpoints": copy.get("show_sandbox_endpoints", True),
         "downloads": _downloads_for_system(system_id),
     }
