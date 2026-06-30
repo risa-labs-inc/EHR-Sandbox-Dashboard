@@ -11,7 +11,7 @@ import re
 import shutil
 from pathlib import Path
 
-from app import EHRS, PHARMACY_SYSTEMS, app
+from app import CLEARINGHOUSE_SYSTEMS, EHRS, PHARMACY_SYSTEMS, app
 from exports import list_test_user_previews
 from platform_guide import resolve_download_path
 
@@ -39,6 +39,8 @@ def rewrite_links(html: str) -> str:
     html = re.sub(r"/workspace\?ehr=(\w+)", r"/workspace/\1.html", html)
     # /pharmacy?system=X -> static pharmacy page
     html = re.sub(r"/pharmacy\?system=(\w+)", r"/pharmacy/\1.html", html)
+    # /clearinghouse?system=X -> static clearinghouse page
+    html = re.sub(r"/clearinghouse\?system=(\w+)", r"/clearinghouse/\1.html", html)
     # /download/<sys>/<slot> -> static export file under /downloads/
     html = re.sub(r"/download/([\w-]+)/([\w-]+)", _download_sub, html)
     # /guide -> static guide page
@@ -93,6 +95,22 @@ def main() -> None:
         resp = client.get(f"/pharmacy?system={system}")
         assert resp.status_code == 200, (system, resp.status_code)
         write(OUT / "pharmacy" / f"{system}.html", resp.get_data(as_text=True))
+
+    # Clearinghouse platforms: /clearinghouse?system=X. The workspace JS fetches
+    # sample outputs at runtime from /clearinghouse/samples/<file>.json, so those
+    # JSON files are copied alongside the static page.
+    for system in CLEARINGHOUSE_SYSTEMS:
+        resp = client.get(f"/clearinghouse?system={system}")
+        assert resp.status_code == 200, (system, resp.status_code)
+        write(OUT / "clearinghouse" / f"{system}.html", resp.get_data(as_text=True))
+
+        src_dir = ROOT / "sample_outputs" / system
+        if src_dir.is_dir():
+            dst_dir = OUT / "clearinghouse" / "samples"
+            dst_dir.mkdir(parents=True, exist_ok=True)
+            for f in src_dir.glob("*.json"):
+                shutil.copy2(f, dst_dir / f.name)
+            print(f"  copied {system} samples -> public/clearinghouse/samples/")
 
     # Static assets (css/js/logos) served at /static/...
     shutil.copytree(ROOT / "static", OUT / "static")
