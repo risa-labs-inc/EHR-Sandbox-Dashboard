@@ -1,0 +1,54 @@
+{
+  "totalCount": 10,
+  "count": 10,
+  "offset": 0,
+  "limit": 50,
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/availity/v1/coverages"
+    }
+  },
+  "coverages": [
+    {
+      "links": {
+        "self": {
+          "href": "https://api.availity.com/availity/v1/coverages/0001234457589486807542108543870042194372034683103803500071606998"
+        }
+      },
+      "id": "0001234457589486807542108543870042194372034683103803500071606998",
+      "customerId": "1234",
+      "status": "Complete",
+      "statusCode": "4",
+      "createdDate": "2014-10-15T15:33:29.000+0000",
+      "updatedDate": "2014-10-15T15:33:29.000+0000",
+      "expirationDate": "2014-10-16T15:33:28.000+0000",
+      "asOfDate": "2014-10-15T04:00:00.000+0000",
+      "requestedServiceType": [
+        {
+          "code": "30",
+          "value": "Health Benefit Plan Coverage"
+        }
+      ],
+      "subscriber": {
+        "memberId": "1234567890"
+      },
+      "patient": {
+        "subscriberRelationship": "Self",
+        "subscriberRelationshipCode": "18",
+        "birthDate": "1990-01-01T05:00:00.000+0000"
+      },
+      "payer": {
+        "name": "HEALTHPLANONE",
+        "payerId": "HEALTHPLANONE"
+      },
+      "requestingProvider": {
+        "taxId": "123123123"
+      },
+      "plans": [
+        {
+          "comment": "On a real Complete (statusCode 4) coverage, this array holds the benefit detail: status (Active/Inactive), coverage level, in/out of network, co-pay, deductible, co-insurance, and out-of-pocket amounts per service type."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Platform Guide · Health Data Atlas{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+</head>
+<body class="page-guide">
+  <aside class="guide-rail" aria-label="Platform navigation">
+    <a class="guide-rail-brand" href="{{ url_for('home') }}" title="Health Data Atlas">
+      <img
+        class="guide-rail-logo"
+        src="{{ url_for('static', filename='logos/risa.jpeg') }}"
+        alt="RISA"
+        width="180"
+        height="64"
+      />
+    </a>
+
+    <nav class="guide-rail-nav">
+      {% set ns = namespace(first=true) %}
+      {% for cat in categories %}
+      <div class="guide-nav-group" data-guide-nav-group>
+        <div class="guide-nav-heading">
+          <span class="guide-nav-title">{{ cat.name }}</span>
+        </div>
+        <ul class="guide-nav-list">
+          {% for p in cat.platforms %}
+          <li>
+            <button
+              type="button"
+              class="guide-nav-item{% if ns.first %} active{% endif %}"
+              data-guide-nav="{{ p.id }}"
+              aria-current="{{ 'true' if ns.first else 'false' }}"
+            >{{ p.name }}</button>
+          </li>
+          {% if ns.first %}{% set ns.first = false %}{% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </nav>
+
+    <div class="guide-rail-footer">
+      <a class="guide-rail-footer-link" href="{{ url_for('home') }}" title="Back to Atlas">Atlas</a>
+    </div>
+  </aside>
+
+  <div class="guide-shell">
+    <header class="guide-shell-header">
+      <div class="guide-shell-header-text">
+        <h1>{% block page_heading %}Platform Guide{% endblock %}</h1>
+        <p class="muted">{% block subtitle %}Sandbox endpoints, FHIR references, test patients, and export downloads.{% endblock %}</p>
+      </div>
+      <nav class="home-top-nav" aria-label="Atlas views">
+        <a class="home-nav-link" href="{{ url_for('home') }}">Atlas</a>
+        <a class="home-nav-link active" href="{{ url_for('platform_guide') }}" aria-current="page">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 4v14a2 2 0 0 0 2 2h10" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Platform Guide
+        </a>
+      </nav>
+    </header>
+
+    <div class="guide-shell-body">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

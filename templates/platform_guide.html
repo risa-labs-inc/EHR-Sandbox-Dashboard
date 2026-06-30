@@ -1,231 +1,45 @@
-{% extends "home_layout.html" %}
+{% extends "guide_layout.html" %}
 {% block title %}Platform Guide · Health Data Atlas{% endblock %}
 {% block page_heading %}Platform Guide{% endblock %}
 {% block subtitle %}Sandbox endpoints, FHIR references, test patients, and export downloads.{% endblock %}
 
 {% block content %}
-<div class="guide-search-wrap">
-  <label class="guide-search-label" for="guide-search">Search</label>
-  <div class="guide-search-field">
-    <svg class="guide-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-      <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-    <input
-      type="search"
-      id="guide-search"
-      class="guide-search-input"
-      placeholder="Platforms, endpoints, patients, exports…"
-      autocomplete="off"
-      spellcheck="false"
-    />
-    <button type="button" class="guide-search-clear" id="guide-search-clear" hidden aria-label="Clear search">×</button>
+<div class="guide-body-layout">
+  <div class="guide-main" id="guide-results">
+    {% set ns = namespace(first=true) %}
+    {% for cat in categories %}
+      {% for p in cat.platforms %}
+      <article
+        class="guide-platform guide-platform-panel{% if p.research_links %} guide-platform-banner{% endif %}{% if ns.first %} is-active{% endif %}"
+        id="guide-{{ p.id }}"
+        data-guide-panel="{{ p.id }}"
+        {% if not ns.first %}hidden{% endif %}
+      >
+        {% include "_platform_detail.html" %}
+      </article>
+      {% if ns.first %}{% set ns.first = false %}{% endif %}
+      {% endfor %}
+    {% endfor %}
   </div>
-  <p class="guide-search-status muted" id="guide-search-status" hidden></p>
-</div>
 
-<div id="guide-results">
-{% for cat in categories %}
-<section class="guide-category">
-  <h2 class="home-category-title">{{ cat.name }}</h2>
-
-  {% for p in cat.platforms %}
-  <article class="guide-platform" id="guide-{{ p.id }}">
-    <header class="guide-platform-head">
-      <img class="guide-platform-logo" src="{{ url_for('static', filename=p.logo) }}" alt="" width="120" height="42" onerror="this.style.display='none'" />
-      <h3 class="guide-platform-name">{{ p.name }}</h3>
-    </header>
-
-    <div class="guide-section">
-      <h4 class="guide-section-title">What it is</h4>
-      <p class="guide-text">{{ p.what_it_is }}</p>
-    </div>
-
-    {% if p.research_links %}
-    <div class="guide-section">
-      <h4 class="guide-section-title">RISA research notes</h4>
-      <ul class="guide-link-list">
-        {% for link in p.research_links %}
-        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-    <div class="guide-section">
-      <h4 class="guide-section-title">{% if p.is_fhir %}FHIR &amp; API resources{% else %}API resources{% endif %}</h4>
-      <ul class="guide-link-list">
-        {% for link in p.fhir_links %}
-        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-
-    {% if p.show_sandbox_endpoints %}
-    <div class="guide-section">
-      <h4 class="guide-section-title">Sandbox access — technical endpoints</h4>
-      {% if p.endpoints %}
-      <div class="guide-table-wrap">
-        <table class="guide-table">
-          <thead>
-            <tr><th scope="col">Endpoint</th><th scope="col">Value</th></tr>
-          </thead>
-          <tbody>
-            {% for ep in p.endpoints %}
-            <tr>
-              <td class="guide-td-label">{{ ep.label }}</td>
-              <td class="guide-td-value">
-                {% if ep.get('is_text') %}
-                <code class="guide-code-block">{{ ep.url }}</code>
-                {% else %}
-                <a href="{{ ep.url }}" target="_blank" rel="noopener noreferrer" class="guide-url">{{ ep.url }}</a>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+  <aside class="guide-aside" aria-label="At a glance">
+    {% set ns2 = namespace(first=true) %}
+    {% for cat in categories %}
+      {% for p in cat.platforms %}
+      <div
+        class="guide-glance-panel{% if ns2.first %} is-active{% endif %}"
+        data-guide-glance="{{ p.id }}"
+        {% if not ns2.first %}hidden{% endif %}
+      >
+        {% include "_guide_glance.html" %}
       </div>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    {% if p.sample_output_links %}
-    <div class="guide-section">
-      <h4 class="guide-section-title">Sample outputs source</h4>
-      <ul class="guide-link-list">
-        {% for link in p.sample_output_links %}
-        <li>
-          <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
-          {% if link.file %}<span class="guide-ts">→ <code>{{ link.file }}</code></span>{% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-    {% if p.test_patients or p.test_patient_resources or p.test_patient_credentials %}
-    <div class="guide-section">
-      <h4 class="guide-section-title">Test patients</h4>
-
-      {% if p.test_patient_resources %}
-      <ul class="guide-link-list guide-test-patient-links">
-        {% for link in p.test_patient_resources %}
-        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a></li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-      {% if p.test_patient_credentials %}
-      <div class="guide-table-wrap guide-creds-wrap">
-        <table class="guide-table">
-          <thead>
-            <tr>
-              <th scope="col">Patient ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Username</th>
-              <th scope="col">Password</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for cred in p.test_patient_credentials %}
-            <tr>
-              <td><code>{{ cred.patient_id }}</code></td>
-              <td>{{ cred.name }}</td>
-              <td><code>{{ cred.username }}</code></td>
-              <td><code>{{ cred.password }}</code></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% endif %}
-
-      {% if p.test_patients %}
-      <div class="guide-table-wrap{% if p.test_patient_resources or p.test_patient_credentials %} guide-table-spaced{% endif %}">
-        <table class="guide-table">
-          <thead>
-            <tr>
-              <th scope="col">Slot</th>
-              <th scope="col">Patient</th>
-              <th scope="col">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for pt in p.test_patients %}
-            <tr>
-              <td>{{ pt.slot }}</td>
-              <td>
-                {% if pt.link %}
-                <a href="{{ pt.link }}" target="_blank" rel="noopener noreferrer">{{ pt.label }}</a>
-                <span class="guide-ts">FHIR Patient resource (OAuth required)</span>
-                {% else %}
-                {{ pt.label }}
-                {% endif %}
-              </td>
-              <td class="guide-td-meta">
-                {% if pt.patient_id %}
-                <span>ID: <code>{{ pt.patient_id }}</code></span>
-                {% endif %}
-                {% if pt.fhir_api_ref %}
-                <span class="guide-fhir-ref" title="API endpoint — not openable in a browser without a token">FHIR: <code>{{ pt.fhir_api_ref }}</code></span>
-                {% endif %}
-                {% if pt.dob %}<span>DOB: {{ pt.dob }}</span>{% endif %}
-                {% if pt.gender and pt.gender != 'unknown' %}<span>{{ pt.gender | capitalize }}</span>{% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    <div class="guide-section">
-      <h4 class="guide-section-title">Data in this atlas</h4>
-      {% if p.downloads %}
-      <div class="guide-table-wrap">
-        <table class="guide-table guide-table-dl">
-          <thead>
-            <tr>
-              <th scope="col">Type</th>
-              <th scope="col">Download</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in p.downloads %}
-            <tr>
-              <td>
-                <span class="guide-dl-type">{{ row.type_label }}</span>
-                {% if row.exported_at and row.exported_at != '—' %}
-                <span class="guide-ts">{{ row.exported_at }}</span>
-                {% endif %}
-                <code class="guide-dl-file">{{ row.filename }}</code>
-              </td>
-              <td>
-                <a
-                  class="guide-dl-btn"
-                  href="{{ url_for('download_export', system_id=p.id, slot=row.slot_key) }}"
-                  download
-                >Download JSON</a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% else %}
-      <p class="guide-text muted">No export files available.</p>
-      {% endif %}
-    </div>
-  </article>
-  {% endfor %}
-</section>
-{% endfor %}
+      {% if ns2.first %}{% set ns2.first = false %}{% endif %}
+      {% endfor %}
+    {% endfor %}
+  </aside>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='guide_search.js') }}"></script>
+<script src="{{ url_for('static', filename='guide_nav.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,84 @@
+{
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/availity/v2/service-reviews/0001234476904234805043040461830325519306571042495809029976148661"
+    }
+  },
+  "id": "0001234476904234805043040461830325519306571042495809029976148661",
+  "customerId": "1234",
+  "status": "Building Request",
+  "statusCode": "BR",
+  "createdDate": "2015-02-24T18:51:39.000+0000",
+  "updatedDate": "2015-02-24T18:51:39.000+0000",
+  "expirationDate": "2015-02-25T18:51:39.000+0000",
+  "validationMessages": [
+    {
+      "field": "renderingProviders",
+      "errorMessage": "Please enter at least one Service Provider and one Facility."
+    }
+  ],
+  "payer": {
+    "name": "FLORIDA BLUE",
+    "id": "BCBSF"
+  },
+  "requestingProvider": {
+    "lastName": "RP Surgery Center",
+    "npi": "1111111112",
+    "submitterId": "G12345",
+    "specialtyCode": "207T00000X",
+    "addressLine1": "321 Main St",
+    "city": "JACKSONVILLE",
+    "state": "Florida",
+    "stateCode": "FL",
+    "zipCode": "322231234",
+    "contactName": "John Doe",
+    "phone": "9043334444"
+  },
+  "subscriber": {
+    "firstName": "Jane",
+    "middleName": "J",
+    "lastName": "Smith",
+    "suffix": "JR",
+    "memberId": "TEST1"
+  },
+  "patient": {
+    "firstName": "Jane",
+    "middleName": "J",
+    "lastName": "Smith",
+    "suffix": "JR",
+    "subscriberRelationship": "Self",
+    "subscriberRelationshipCode": "18",
+    "birthDate": "2009-09-09T05:00:00.000+0000",
+    "gender": "Female",
+    "genderCode": "F"
+  },
+  "diagnoses": [
+    {
+      "qualifier": "International Classification of Diseases Clinical Modification (ICD-10-CM) Principal Diagnosis",
+      "qualifierCode": "BF",
+      "value": "Medical Diagnosis",
+      "code": "0011",
+      "date": "2015-01-01T05:00:00.000+0000"
+    }
+  ],
+  "requestTypeCode": "AR",
+  "serviceTypeCode": "1",
+  "placeOfServiceCode": "21",
+  "fromDate": "2015-01-01T05:00:00.000+0000",
+  "admissionTypeCode": "1",
+  "admissionSourceCode": "1",
+  "renderingProviders": [
+    {
+      "lastName": "smith",
+      "firstName": "bobby",
+      "npi": "1111111112",
+      "specialtyCode": "282N00000X",
+      "roleCode": "SJ",
+      "addressLine1": "321 Main St",
+      "city": "Jacksonville",
+      "stateCode": "FL",
+      "zipCode": "322561234"
+    }
+  ],
+  "_note": "POST returns HTTP 202 Accepted with a Location header (e.g. /availity/v2/service-reviews/-11923818311). Poll GET by that id until statusCode = A1 (Certified), A3 (Denied), or A4 (Pended)."
+}

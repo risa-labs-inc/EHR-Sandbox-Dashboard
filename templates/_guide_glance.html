@@ -1,0 +1,79 @@
+{% set g = p.glance %}
+<div class="guide-glance">
+  <h3 class="guide-glance-title">At a glance</h3>
+  <ul class="guide-glance-list">
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Platform</span>
+      <span class="guide-glance-v">{{ g.platform_name }}</span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Category</span>
+      <span class="guide-glance-v">{{ g.category }}</span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Data type</span>
+      <span class="guide-glance-v">{{ g.data_type }}</span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Test users</span>
+      <span class="guide-glance-v">
+        {% if g.test_users %}
+          {{ g.test_users }}{% if g.has_master %} + master{% endif %}
+        {% elif g.has_master %}
+          Master only
+        {% else %}
+          —
+        {% endif %}
+      </span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Sandbox tested</span>
+      <span class="guide-glance-v">
+        <span class="guide-glance-pill{% if g.sandbox_tested %} is-yes{% else %} is-no{% endif %}">
+          {{ 'Yes' if g.sandbox_tested else 'No' }}
+        </span>
+      </span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Sandbox docs</span>
+      <span class="guide-glance-v">
+        <span class="guide-glance-pill{% if g.sandbox_documentation %} is-yes{% else %} is-no{% endif %}">
+          {{ 'Yes' if g.sandbox_documentation else 'No' }}
+        </span>
+      </span>
+    </li>
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Atlas</span>
+      <span class="guide-glance-v">
+        {% if p.category == 'ehr' %}
+        <a class="guide-glance-link" href="{{ url_for('workspace', ehr=p.id) }}">Open workspace</a>
+        {% elif p.category == 'clearinghouse' %}
+        <a class="guide-glance-link" href="{{ url_for('clearinghouse', system=p.id) }}">Open workspace</a>
+        {% else %}
+        <a class="guide-glance-link" href="{{ url_for('pharmacy', system=p.id) }}">Open workspace</a>
+        {% endif %}
+      </span>
+    </li>
+    {% if g.is_ehr and g.field_match %}
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">Matched fields</span>
+      <span class="guide-glance-v">
+        <span class="guide-glance-match">{{ g.field_match.percent }}%</span>
+        <span class="guide-glance-match-sub">({{ g.field_match.matched }}/{{ g.field_match.total }} green)</span>
+      </span>
+    </li>
+    {% endif %}
+    {% if g.tags %}
+    <li class="guide-glance-item guide-glance-item-tags">
+      <span class="guide-glance-k">Tags</span>
+      <span class="guide-glance-v">
+        <span class="guide-glance-tags">
+          {% for tag in g.tags %}
+          <span class="guide-glance-tag">{{ tag }}</span>
+          {% endfor %}
+        </span>
+      </span>
+    </li>
+    {% endif %}
+  </ul>
+</div>

@@ -7,7 +7,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from bestrx import PATIENT_FILE, DRUG_FILE
+from availity import list_availity_downloads, resolve_availity_download
+from bestrx import PATIENT_FILE, DRUG_FILE, list_bestrx_previews
 from exports import (
     MASTER_SLOT,
     list_output_slots,
@@ -17,6 +18,7 @@ from exports import (
     peek_user_preview,
     slot_export_path,
 )
+from pa_fields import GETTABLE_FIELDS, compute_master_field_match
 
 _DIR = Path(__file__).resolve().parent
 
@@ -39,6 +41,11 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {
                 "label": "Sandbox Outputs — Notion research",
                 "url": "https://app.notion.com/p/Sandbox-Outputs-366e5f5a1a628032bd73d11d2f4558d3",
+                "summary": (
+                    "Internal RISA notes on Epic sandbox outputs, OAuth flow, test patients, "
+                    "and which PA fields we could map from FHIR exports."
+                ),
+                "tags": ["Sandbox", "FHIR R4", "Internal"],
             },
         ],
         "test_patient_resources": [
@@ -66,6 +73,11 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {
                 "label": "eClinical Works Sandbox — Notion research",
                 "url": "https://app.notion.com/p/eClinical-Works-Sandbox-36de5f5a1a6280318b06ef3fb51f9493",
+                "summary": (
+                    "RISA research on eCW staging FHIR, SMART launch, export shapes, and "
+                    "integration notes from sandbox testing."
+                ),
+                "tags": ["Sandbox", "SMART on FHIR", "Internal"],
             },
         ],
     },
@@ -86,6 +98,11 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {
                 "label": "NextGen Sandbox Integration — Notion research",
                 "url": "https://app.notion.com/p/Nextgen-Sandbox-Integration-373e5f5a1a6280ebb98eecdb2ddce524",
+                "summary": (
+                    "Sandbox integration findings for NextGen FHIR R4, test patient access, "
+                    "and PA-relevant resource coverage."
+                ),
+                "tags": ["Sandbox", "FHIR R4", "Internal"],
             },
         ],
         "test_patient_credentials": [
@@ -119,6 +136,11 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             {
                 "label": "iKnowMed (IKM) — Notion research",
                 "url": "https://app.notion.com/p/iKnowMed-IKM-372e5f5a1a6280298507f834c2900f53",
+                "summary": (
+                    "Oncology EHR sandbox research — Ontada developer portal, FHIR gateway "
+                    "access, and specialty PA data mapping notes."
+                ),
+                "tags": ["Sandbox", "Oncology", "Internal"],
             },
         ],
     },
@@ -145,6 +167,45 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         ],
         "is_fhir": False,
         "show_sandbox_endpoints": False,
+        "tags": ["PMS", "REST", "Internal"],
+    },
+    "availity": {
+        "what_it_is": (
+            "Availity is a healthcare clearinghouse for HIPAA X12 transactions and "
+            "REST APIs — eligibility (270/271), claim status (276/277), prior auth "
+            "(278), and related value-add services. This atlas uses saved sample "
+            "outputs for field exploration."
+        ),
+        "fhir_links": [
+            {"label": "Availity Developer Portal", "url": "https://developer.availity.com/"},
+            {
+                "label": "Availity API Guide",
+                "url": "https://developer.availity.com/blog/2025/3/25/availity-api-guide",
+            },
+            {
+                "label": "HIPAA Transactions API documentation",
+                "url": "https://developer.availity.com/blog/2025/3/25/hipaa-transactions",
+            },
+            {
+                "label": "Sample outputs — Notion",
+                "url": "https://app.notion.com/p/Sample-Outputs-38ee5f5a1a6280d09a1afb9b3a812882",
+            },
+        ],
+        "is_fhir": False,
+        "show_sandbox_endpoints": False,
+        "download_table": "api",
+        "tags": ["Clearinghouse", "REST", "HIPAA X12", "Internal"],
+        "research_links": [
+            {
+                "label": "Availity — Notion research",
+                "url": "https://app.notion.com/p/Availity-38ee5f5a1a628078aef0cbc45b1455b4",
+                "summary": (
+                    "RISA research on Availity sandbox APIs, OAuth, sample outputs, "
+                    "and HIPAA transaction coverage for prior-auth workflows."
+                ),
+                "tags": ["Clearinghouse", "REST", "Internal"],
+            },
+        ],
     },
 }
 
@@ -311,7 +372,7 @@ def _patient_fhir_api_ref(raw: dict[str, Any]) -> str | None:
 def _endpoints_for_system(system_id: str) -> list[dict[str, str]]:
     """Best available technical endpoints from master or first slot export."""
     system_id = system_id.lower()
-    if system_id == "bestrx":
+    if system_id in ("bestrx", "availity"):
         return []
     candidates: list[Path] = []
     mp = master_export_path(system_id)
@@ -401,6 +462,18 @@ def _downloads_for_system(system_id: str) -> list[dict[str, Any]]:
                 rows.append(row)
         return rows
 
+    if system_id == "availity":
+        for row in list_availity_downloads():
+            rows.append(
+                {
+                    "api": row["api"],
+                    "endpoint": row["endpoint"],
+                    "filename": row["filename"],
+                    "slot_key": row["slot_key"],
+                }
+            )
+        return rows
+
     previews = list_test_user_previews(system_id)
     for p in previews:
         slot = p["slot"]
@@ -426,7 +499,7 @@ def _downloads_for_system(system_id: str) -> list[dict[str, Any]]:
 
 def _test_patients_for_system(system_id: str) -> list[dict[str, Any]]:
     system_id = system_id.lower()
-    if system_id == "bestrx":
+    if system_id in ("bestrx", "availity"):
         return []
 
     out: list[dict[str, Any]] = []
@@ -455,6 +528,69 @@ def _test_patients_for_system(system_id: str) -> list[dict[str, Any]]:
     return out
 
 
+def _tags_for_copy(copy: dict[str, Any]) -> list[str]:
+    explicit = copy.get("tags")
+    if explicit:
+        return list(explicit)
+    tags: list[str] = []
+    for link in copy.get("research_links") or []:
+        for tag in link.get("tags") or []:
+            if tag not in tags:
+                tags.append(tag)
+    return tags
+
+
+def _glance_for_platform(
+    system_id: str, display_name: str, category: str, copy: dict[str, Any]
+) -> dict[str, Any]:
+    system_id = system_id.lower()
+    is_ehr = category.lower() == "ehr"
+    glance_cfg = copy.get("glance") or {}
+
+    if system_id == "bestrx":
+        previews = list_bestrx_previews()
+    elif system_id == "availity":
+        from availity import list_availity_previews
+
+        previews = list_availity_previews()
+    else:
+        previews = list_test_user_previews(system_id)
+
+    has_master = any(p.get("is_master") for p in previews)
+    test_users = sum(1 for p in previews if not p.get("is_master"))
+
+    sandbox_tested = glance_cfg.get("sandbox_tested", True)
+    sandbox_documentation = glance_cfg.get("sandbox_documentation")
+    if sandbox_documentation is None:
+        sandbox_documentation = bool(
+            copy.get("fhir_links")
+            or copy.get("research_links")
+            or copy.get("sample_output_links")
+            or _endpoints_for_system(system_id)
+        )
+
+    field_match = None
+    if is_ehr:
+        field_match = compute_master_field_match(
+            system_id, GETTABLE_FIELDS.get(system_id, {})
+        )
+
+    return {
+        "platform_name": display_name,
+        "category": {"ehr": "EHR", "pharmacy": "PMS", "clearinghouse": "Clearinghouse"}.get(
+            category.lower(), category.upper()
+        ),
+        "data_type": "FHIR R4" if copy.get("is_fhir", True) else "REST",
+        "test_users": test_users,
+        "has_master": has_master,
+        "sandbox_tested": sandbox_tested,
+        "sandbox_documentation": sandbox_documentation,
+        "field_match": field_match,
+        "tags": _tags_for_copy(copy),
+        "is_ehr": is_ehr,
+    }
+
+
 def build_platform(system_id: str, display_name: str, category: str) -> dict[str, Any]:
     copy = _PLATFORM_COPY.get(system_id.lower(), {})
     return {
@@ -473,6 +609,8 @@ def build_platform(system_id: str, display_name: str, category: str) -> dict[str
         "research_links": copy.get("research_links") or [],
         "show_sandbox_endpoints": copy.get("show_sandbox_endpoints", True),
         "downloads": _downloads_for_system(system_id),
+        "download_table": copy.get("download_table", "default"),
+        "glance": _glance_for_platform(system_id, display_name, category, copy),
     }
 
 
@@ -485,6 +623,8 @@ def resolve_download_path(system_id: str, slot: str) -> Path | None:
         if slot == "drug":
             return DRUG_FILE if DRUG_FILE.is_file() else None
         return None
+    if system_id == "availity":
+        return resolve_availity_download(slot)
     return _export_path(system_id, slot)
 
 
@@ -496,6 +636,8 @@ def download_slot_key(row: dict[str, Any], system_id: str) -> str:
             return "patient"
         if "drug" in row.get("type_label", "").lower():
             return "drug"
+    if system_id == "availity":
+        return row.get("slot_key", row.get("filename", "file"))
     label = row.get("type_label", "")
     if label == "Master":
         return MASTER_SLOT

@@ -1,0 +1,116 @@
+{
+  "id": "16536719344950000248823246346246",
+  "originatorId": "received.response.attachment@c954f33e-cf2c-4e4e-89de-d84bdf352b32:3",
+  "vaultUri": "/eade5549-7429-4fe4-aa8b-1caf34da0edc/af3b8b9b-6fce-4ab2-a0c1-51e05f19339a",
+  "status": "SUBMITTED",
+  "responseMessage": [
+    "Processed PDF Attachment Response"
+  ],
+  "incomingRequestId": "3306847",
+  "serviceReview": {
+    "id": "-2307668396582942483",
+    "customerId": "280179",
+    "controlNumber": "454545454",
+    "externalControlNumber": "123456789",
+    "userId": "aka999999999",
+    "shortFormIndicator": false,
+    "updatable": false,
+    "deletable": false,
+    "status": "Certified in Total",
+    "statusCode": "A1",
+    "createdDate": "2026-03-05T19:57:02.000+00:00",
+    "updatedDate": "2026-03-05T19:57:26.073+00:00",
+    "expirationDate": "2026-03-05T19:57:02.000+00:00",
+    "payer": {
+      "id": "HEALTHPLAN ONE",
+      "isResponseIdUsed": false,
+      "name": "HEALTHPLAN ONE",
+      "receiverId": "HEALTHPLAN ONE"
+    },
+    "requestingProvider": {
+      "lastName": "PROVIDERONE",
+      "firstName": "TEST",
+      "npi": "123456789",
+      "taxId": "123456789",
+      "specialty": "Obstetrics & Gynecology",
+      "specialtyCode": "207V00000X",
+      "addressLine1": "111111 Healthy Parkway",
+      "addressLine2": "STE F1500",
+      "city": "JACKSONVILLE",
+      "state": "Florida",
+      "stateCode": "FL",
+      "zipCode": "22222",
+      "phone": "5555555555",
+      "fax": "1111111111",
+      "contactName": "Health Plan Test",
+      "roleCode": "1P",
+      "isInNetworkProvider": false
+    },
+    "subscriber": {
+      "firstName": "PatientOne",
+      "lastName": "TEST",
+      "memberId": "123456789"
+    },
+    "patient": {
+      "firstName": "PatientOne",
+      "lastName": "TEST",
+      "subscriberRelationship": "Self",
+      "subscriberRelationshipCode": "18",
+      "birthDate": "1990-01-01",
+      "gender": "Female",
+      "genderCode": "F"
+    },
+    "organization": {
+      "id": "143859",
+      "customerId": "1194",
+      "name": "ProviderOne"
+    },
+    "diagnoses": [
+      {
+        "qualifier": "International Classification of Diseases Clinical Modification (ICD-10-CM) Principal Diagnosis",
+        "qualifierCode": "ABK",
+        "value": "Maternal care for breech presentation unsp",
+        "code": "O321XX0",
+        "date": "2026-03-05"
+      }
+    ],
+    "certificationNumber": "123456789",
+    "certificationTypeCode": "I",
+    "referenceNumber": "123456",
+    "requestType": "Admission Review",
+    "requestTypeCode": "AR",
+    "serviceType": "Maternity",
+    "serviceTypeCode": "69",
+    "placeOfService": "Inpatient Hospital",
+    "placeOfServiceCode": "21",
+    "fromDate": "2026-03-18",
+    "quantity": "4",
+    "quantityType": "Days",
+    "quantityTypeCode": "DY",
+    "admissionType": "Elective",
+    "admissionTypeCode": "3",
+    "procedures": [
+      {
+        "status": "Certified in Total",
+        "statusCode": "A1",
+        "certificationNumber": "123456789",
+        "code": "59515",
+        "qualifierCode": "HC",
+        "qualifier": "Health Care Financing Administration Common Procedural Coding System (HCPCS) Codes",
+        "svType": "SV2"
+      }
+    ],
+    "transactionCreateDate": "2026-03-05"
+  },
+  "attachments": [
+    {
+      "attachmentTypeCode": "M1",
+      "contentType": "application/PDF",
+      "title": "test_clinical_doc_whittle.pdf",
+      "data": "JVBERi0yLjAKJbq63toKMSAwIG9iajw8L1R5cGU+vQ2F0YWxvZy9QYWdAwIFI=",
+      "size": 584,
+      "creation": "2026-03-05"
+    }
+  ],
+  "attachmentRequestNumber": "123456789"
+}

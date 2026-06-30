@@ -6,9 +6,16 @@
   <h2 class="home-category-title">{{ cat.name }}</h2>
   <div class="card-grid">
     {% for s in cat.systems %}
-    <a class="ehr-card" href="{{ s.href }}">
+    <a class="ehr-card{% if s.id == 'availity' %} ehr-card-availity{% elif s.id == 'bestrx' %} ehr-card-bestrx{% elif s.id == 'ecw' %} ehr-card-ecw{% endif %}" href="{{ s.href }}">
       <span class="ehr-card-logo" aria-hidden="true">
-        <img src="{{ s.logo }}" alt="{{ s.name }}" width="200" height="80" onerror="this.style.display='none'" />
+        <img
+          class="{% if s.id == 'availity' %}availity-card-logo{% elif s.id == 'bestrx' %}bestrx-card-logo{% elif s.id == 'ecw' %}ecw-card-logo{% endif %}"
+          src="{{ s.logo }}"
+          alt="{{ s.name }}"
+          width="200"
+          height="80"
+          onerror="this.style.display='none'"
+        />
       </span>
       <span class="ehr-card-title">{{ s.name }}</span>
       {% if s.previews %}

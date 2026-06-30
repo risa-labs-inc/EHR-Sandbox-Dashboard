@@ -9,8 +9,10 @@ import secrets
 
 from flask import Flask, jsonify, redirect, render_template, request, send_file, session, url_for
 
+from availity import list_availity_previews, resolve_availity_sample
 from bestrx import list_bestrx_previews, load_bestrx
 from exports import list_test_user_previews, load_ehr_from_export
+from pa_fields import GETTABLE_FIELDS
 from platform_guide import build_platform, resolve_download_path
 
 app = Flask(__name__)
@@ -21,6 +23,9 @@ EHRS = ("epic", "ecw", "nextgen", "iknowmed")
 # Pharmacy management platforms (non-FHIR; loaded via bestrx.py).
 PHARMACY_SYSTEMS = ("bestrx",)
 
+# Clearinghouse platforms (Availity HIPAA APIs).
+CLEARINGHOUSE_SYSTEMS = ("availity",)
+
 # Centralized display names for every system shown in the UI.
 DISPLAY_NAMES: dict[str, str] = {
     "epic": "Epic",
@@ -28,33 +33,12 @@ DISPLAY_NAMES: dict[str, str] = {
     "nextgen": "NextGen",
     "iknowmed": "iKnowMed",
     "bestrx": "BestRx",
+    "availity": "Availity",
 }
 
 
 def display_name(system_id: str) -> str:
     return DISPLAY_NAMES.get(system_id, system_id)
-
-# Fields absent from the sample data but obtainable from a known FHIR resource.
-# Shown as a yellow tick (instead of red cross) in the master view only, and the
-# info card surfaces the {resource, path} where the value can be sourced.
-GETTABLE_FIELDS: dict[str, dict[str, dict[str, str]]] = {
-    "epic": {
-        "member_id": {"resource": "Coverage", "path": "Coverage.subscriberId"},
-        "provider_phone": {"resource": "PractitionerRole / Location", "path": "telecom"},
-        "provider_fax": {"resource": "PractitionerRole / Location", "path": "telecom (fax)"},
-        "clinical_notes": {"resource": "DocumentReference", "path": "(document)"},
-    },
-    "nextgen": {
-        "member_id": {"resource": "Coverage", "path": "Coverage.subscriberId"},
-        "days_of_supply": {"resource": "MedicationRequest", "path": "extractable (not explicitly populated)"},
-    },
-    "iknowmed": {
-        "member_id": {"resource": "Coverage", "path": "Coverage.subscriberId"},
-        "npi": {"resource": "Practitioner", "path": "identifier.value"},
-        "provider_phone": {"resource": "PractitionerRole / Location", "path": "telecom"},
-    },
-}
-
 
 def _cmm_key() -> str:
     return session.get("cmm_key") or "".join(
@@ -103,6 +87,16 @@ def _pharmacy_card(system_id: str) -> dict:
     }
 
 
+def _clearinghouse_card(system_id: str) -> dict:
+    return {
+        "id": system_id,
+        "name": display_name(system_id),
+        "href": url_for("clearinghouse", system=system_id),
+        "logo": url_for("static", filename=f"logos/{system_id}.png"),
+        "previews": list_availity_previews() if system_id == "availity" else [],
+    }
+
+
 def _guide_categories() -> list[dict]:
     return [
         {
@@ -110,9 +104,15 @@ def _guide_categories() -> list[dict]:
             "platforms": [build_platform(e, display_name(e), "ehr") for e in EHRS],
         },
         {
-            "name": "Pharmacy Management Systems",
+            "name": "Pharmacy Management Systems (PMS)",
             "platforms": [
                 build_platform(p, display_name(p), "pharmacy") for p in PHARMACY_SYSTEMS
+            ],
+        },
+        {
+            "name": "Clearinghouses",
+            "platforms": [
+                build_platform(c, display_name(c), "clearinghouse") for c in CLEARINGHOUSE_SYSTEMS
             ],
         },
     ]
@@ -128,6 +128,10 @@ def home():
         {
             "name": "Pharmacy Management Systems",
             "systems": [_pharmacy_card(p) for p in PHARMACY_SYSTEMS],
+        },
+        {
+            "name": "Clearinghouses",
+            "systems": [_clearinghouse_card(c) for c in CLEARINGHOUSE_SYSTEMS],
         },
     ]
     return render_template("home.html", categories=categories, active_tab="atlas")
@@ -218,6 +222,27 @@ def pharmacy():
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+
+@app.route("/clearinghouse")
+def clearinghouse():
+    system = (request.args.get("system") or "availity").lower()
+    if system not in CLEARINGHOUSE_SYSTEMS:
+        return redirect(url_for("home"))
+
+    return render_template(
+        "availity.html",
+        system=system,
+        title=display_name(system),
+    )
+
+
+@app.route("/clearinghouse/samples/<filename>")
+def clearinghouse_sample(filename: str):
+    path = resolve_availity_sample(filename)
+    if not path:
+        return jsonify({"message": "Sample not found"}), 404
+    return send_file(path, mimetype="application/json")
 
 
 @app.route("/api/context")

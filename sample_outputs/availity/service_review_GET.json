@@ -1,0 +1,114 @@
+{
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/availity/v2/service-reviews/00012334110147861604667155757587374114129045756512963141509096868"
+    }
+  },
+  "id": "00012334110147861604667155757587374114129045756512963141509096868",
+  "customerId": "1234",
+  "controlNumber": "31722",
+  "status": "Certified in Total",
+  "statusCode": "A1",
+  "createdDate": "2015-02-24T19:28:44.000+0000",
+  "updatedDate": "2015-02-24T19:28:48.000+0000",
+  "expirationDate": "2015-02-25T19:28:44.000+0000",
+  "serviceReviewEffectiveDate": "2014-11-28T05:00:00.000+0000",
+  "serviceReviewExpireDate": "2014-11-27T05:00:00.000+0000",
+  "serviceReviewNumber": "123306685",
+  "certificationNumber": "1231723",
+  "payer": {
+    "name": "FLORIDA BLUE",
+    "id": "BCBSF"
+  },
+  "requestingProvider": {
+    "lastName": "John Doe Hospital",
+    "npi": "1233459975",
+    "submitterId": "H1123",
+    "specialty": "General Hospital",
+    "specialtyCode": "282N00000X",
+    "addressLine1": "123 MAIN ST",
+    "city": "JACKSONVILLE",
+    "state": "Florida",
+    "stateCode": "FL",
+    "zipCode": "322231234",
+    "contactName": "John Doe",
+    "phone": "7275271234",
+    "fax": "7273695123"
+  },
+  "subscriber": {
+    "firstName": "JAMIE",
+    "lastName": "SMITH",
+    "memberId": "XJBH1234567890"
+  },
+  "patient": {
+    "firstName": "ARINA",
+    "lastName": "JOHNSON",
+    "subscriberRelationship": "Spouse",
+    "subscriberRelationshipCode": "01",
+    "birthDate": "1988-08-08T05:00:00.000+0000",
+    "gender": "Female",
+    "genderCode": "F"
+  },
+  "diagnoses": [
+    {
+      "qualifier": "International Classification of Diseases Clinical Modification (ICD-10-CM) Principal Diagnosis",
+      "qualifierCode": "BF",
+      "value": "Cholera d/t vib el tor",
+      "code": "0011",
+      "date": "2014-11-17T05:00:00.000+0000"
+    }
+  ],
+  "requestType": "Admission Review",
+  "requestTypeCode": "AR",
+  "serviceType": "Maternity",
+  "serviceTypeCode": "69",
+  "placeOfService": "Inpatient Hospital",
+  "placeOfServiceCode": "21",
+  "fromDate": "2014-11-18T05:00:00.000+0000",
+  "quantity": "3",
+  "quantityType": "Days",
+  "quantityTypeCode": "DY",
+  "admissionType": "Emergency",
+  "admissionTypeCode": "1",
+  "procedures": [
+    {
+      "qualifier": "Health Care Financing Administration Common Procedural Coding System (HCPCS) Codes",
+      "qualifierCode": "HC",
+      "value": "OBSTETRICAL CARE",
+      "code": "59409",
+      "description": "PROCEDURE DATES- 20141118",
+      "fromDate": "2015-01-02T05:00:00.000+0000",
+      "toDate": "2015-01-03T05:00:00.000+0000"
+    }
+  ],
+  "renderingProviders": [
+    {
+      "lastName": "ABC HOSPITAL",
+      "npi": "1477123123",
+      "specialty": "General Hospital",
+      "specialtyCode": "282N00000X",
+      "role": "Service Provider",
+      "roleCode": "SJ",
+      "addressLine1": "200 MAIN ST",
+      "city": "ORLANDO",
+      "stateCode": "FL",
+      "zipCode": "33881",
+      "phone": "8632931123"
+    },
+    {
+      "role": "Attending Physician",
+      "roleCode": "71",
+      "lastName": "MUNA",
+      "firstName": "TELT",
+      "middleName": "D",
+      "npi": "1234567893",
+      "specialty": "Obstetrics & Gynecology",
+      "specialtyCode": "207V00000X",
+      "addressLine1": "123 CENTRAL AVE",
+      "city": "ORLANDO",
+      "stateCode": "FL",
+      "zipCode": "33880",
+      "phone": "8632123123"
+    }
+  ]
+}

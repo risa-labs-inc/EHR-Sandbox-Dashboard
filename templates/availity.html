@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }} — Sandbox</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}" />
+</head>
+<body class="page-workspace page-availity">
+  <aside class="rail" aria-label="Clearinghouse workspace">
+    <nav class="rail-ehr-nav">
+      <a class="rail-ehr active" href="{{ url_for('clearinghouse', system=system) }}" title="{{ title }}" aria-current="page">
+        <img src="{{ url_for('static', filename='logos/' ~ system ~ '.png') }}" alt="{{ title }}" width="40" height="40"
+             onerror="this.style.display='none'; this.parentNode.textContent='Av';" />
+      </a>
+    </nav>
+    <div class="rail-footer">
+      <a class="rail-footer-link" href="{{ url_for('home') }}" title="Home">&#8962;</a>
+    </div>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="{{ url_for('home') }}">&larr; Go Back</a>
+        <div class="title-user-row">
+          <h1 class="form-title">{{ title }}</h1>
+          <div class="user-slot-wrap">
+            <label for="apiSelect" class="user-slot-label">Select API</label>
+            <select id="apiSelect" class="user-slot-select" aria-label="Select API"></select>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="form-layout">
+      <div class="form-scroll availity-scroll">
+        <div class="availity-workspace">
+          <div class="availity-api-header">
+            <h2 id="apiName"></h2>
+            <span class="availity-badge" id="apiTxn"></span>
+          </div>
+          <p class="availity-blurb" id="apiBlurb"></p>
+
+          <div class="av-op-tabs" id="opTabs" role="tablist" aria-label="HTTP operation"></div>
+
+          <form class="availity-request-form" id="requestForm" autocomplete="off"></form>
+
+          <div class="availity-actions">
+            <button type="button" id="sendBtn" class="btn btn-primary availity-send-btn">Send request</button>
+          </div>
+
+          <div class="availity-response" id="responsePanel">
+            <div class="av-placeholder">Pick an API, fill the form, and hit <b>Send request</b>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="{{ url_for('static', filename='availity_workspace.js') }}"></script>
+</body>
+</html>

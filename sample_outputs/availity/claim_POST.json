@@ -1,0 +1,66 @@
+{
+  "totalCount": 1,
+  "count": 1,
+  "offset": 0,
+  "limit": 1,
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/availity/v1/claim-statuses?id=-1437397854912689422"
+    }
+  },
+  "claimStatuses": [
+    {
+      "links": {
+        "self": {
+          "href": "https://api.availity.com/availity/v1/claim-statuses/-1437397854912689422"
+        }
+      },
+      "id": "-1437397854912689422",
+      "customerId": "1194",
+      "userId": "aka71627884343",
+      "status": "In Progress",
+      "statusCode": "0",
+      "createdDate": "2015-06-05T17:47:23.000+0000",
+      "updatedDate": "2015-06-05T17:47:23.000+0000",
+      "expirationDate": "2015-06-06T17:47:23.000+0000",
+      "fromDate": "2015-05-15T04:00:00.000+0000",
+      "toDate": "2015-05-19T04:00:00.000+0000",
+      "claimNumber": "CL4IM2TATUSNUM8ER",
+      "claimAmount": "12345678.90",
+      "facilityTypeCode": "12",
+      "facilityType": "Hospital Inpatient, Part B only",
+      "frequencyTypeCode": "1",
+      "frequencyType": "Admit thru Discharge Claim",
+      "payer": {
+        "id": "BCBSF"
+      },
+      "submitter": {
+        "lastName": "SUBMITTERLASTNAME",
+        "firstName": "SUBMITTERFIRSTNAME",
+        "id": "SUBMITTERID"
+      },
+      "providers": [
+        {
+          "lastName": "PROVIDERLASTNAME",
+          "firstName": "PROVIDERFIRSTNAME",
+          "npi": "1234567893"
+        }
+      ],
+      "subscriber": {
+        "firstName": "SUBSCRIBERFIRSTNAME",
+        "lastName": "SUBSCRIBERLASTNAME",
+        "memberId": "ABC123456789"
+      },
+      "patient": {
+        "firstName": "PATIENTFIRSTNAME",
+        "lastName": "PATIENTLASTNAME",
+        "birthDate": "1999-09-09",
+        "gender": "Male",
+        "genderCode": "M",
+        "accountNumber": "PAT1ENTACC0UNTNUMB3R",
+        "subscriberRelationship": "Spouse",
+        "subscriberRelationshipCode": "01"
+      }
+    }
+  ]
+}

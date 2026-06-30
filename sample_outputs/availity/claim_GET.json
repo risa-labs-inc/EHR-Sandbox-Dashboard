@@ -1,0 +1,99 @@
+{
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/availity/v1/claim-statuses/5334032768852043884"
+    }
+  },
+  "id": "5334032768852043884",
+  "customerId": "1194",
+  "controlNumber": "36392",
+  "userId": "userid",
+  "status": "Complete",
+  "statusCode": "4",
+  "createdDate": "2015-06-08T15:41:42.000+0000",
+  "updatedDate": "2015-06-08T15:41:42.000+0000",
+  "expirationDate": "2015-06-12T17:20:25.000+0000",
+  "payer": {
+    "id": "BCBSF",
+    "name": "BCBSF"
+  },
+  "submitter": {
+    "lastName": "DOCTORS OFFICE",
+    "id": "G8486"
+  },
+  "providers": [
+    {
+      "lastName": "DOCTORS OFFICE",
+      "npi": "1003847047"
+    }
+  ],
+  "subscriber": {
+    "firstName": "JAMES",
+    "middleName": "E",
+    "lastName": "JONES",
+    "memberId": "ABCD1234567"
+  },
+  "patient": {
+    "firstName": "JAMES",
+    "middleName": "E",
+    "lastName": "JONES",
+    "birthDate": "1991-11-28",
+    "gender": "Male",
+    "genderCode": "M",
+    "accountNumber": "UNKNOWN",
+    "subscriberRelationship": "Self",
+    "subscriberRelationshipCode": "18"
+  },
+  "claimStatuses": [
+    {
+      "traceId": "534180414",
+      "claimControlNumber": "Q100000471322718",
+      "facilityTypeCode": "13",
+      "facilityType": "Hospital Outpatient",
+      "frequencyTypeCode": "1",
+      "frequencyType": "Admit thru Discharge Claim",
+      "patientControlNumber": "UNKNOWN",
+      "fromDate": "2015-05-15",
+      "toDate": "2015-05-15",
+      "statusDetails": [
+        {
+          "category": "Finalized - The Claim/Encounter has completed the adjudication cycle and no more action will be taken",
+          "categoryCode": "F0",
+          "status": "Awaiting next periodic adjudication cycle",
+          "statusCode": "38",
+          "effectiveDate": "2015-06-01",
+          "claimAmount": "1568.34",
+          "claimAmountUnits": "USD",
+          "paymentAmount": "0",
+          "paymentAmountUnits": "USD",
+          "finalizedDate": "2015-05-27",
+          "remittanceDate": "2015-06-01",
+          "checkNumber": "203881588"
+        }
+      ],
+      "serviceLines": [
+        {
+          "procedureQualifier": "National Uniform Billing Committee (NUBC) UB92 Codes",
+          "procedureQualifierCode": "NU",
+          "chargeAmount": "195.87",
+          "chargeAmountUnits": "USD",
+          "paymentAmount": "0",
+          "paymentAmountUnits": "USD",
+          "quantity": "1",
+          "controlNumber": "1",
+          "fromDate": "2015-05-15",
+          "toDate": "2015-05-15",
+          "statusDetails": [
+            {
+              "category": "Finalized/Payment - The Claim/Line has been paid",
+              "categoryCode": "F1",
+              "status": "Processed according to contract provisions",
+              "statusCode": "107",
+              "effectiveDate": "2015-06-01"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

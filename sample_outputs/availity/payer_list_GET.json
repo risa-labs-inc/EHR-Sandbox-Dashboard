@@ -1,0 +1,50 @@
+{
+  "totalCount": 1000,
+  "count": 2,
+  "offset": 0,
+  "limit": 2,
+  "payers": [
+    {
+      "name": "PAYER_ALPHA",
+      "payerId": "PAY000001",
+      "displayName": "INSURANCE TYPE A",
+      "processingRoutes": [
+        {
+          "transactionDescription": "Professional Claims",
+          "submissionMode": "Batch",
+          "effectiveDate": "2025-01-01T00:00:00.000+00:00",
+          "availability": "Available",
+          "enrollmentRequired": false
+        },
+        {
+          "transactionDescription": "Facility Claims",
+          "submissionMode": "Portal",
+          "effectiveDate": "2025-01-01T00:00:00.000+00:00",
+          "availability": "Available",
+          "enrollmentRequired": true
+        }
+      ]
+    },
+    {
+      "name": "PAYER_BETA",
+      "payerId": "PAY000002",
+      "displayName": "INSURANCE TYPE B",
+      "processingRoutes": [
+        {
+          "transactionDescription": "Pharmacy Claims",
+          "submissionMode": "EDI",
+          "effectiveDate": "2025-02-15T12:00:00.000+00:00",
+          "availability": "Pending",
+          "enrollmentRequired": false
+        },
+        {
+          "transactionDescription": "Dental Claims",
+          "submissionMode": "Portal",
+          "effectiveDate": "2025-02-15T12:00:00.000+00:00",
+          "availability": "Available",
+          "enrollmentRequired": true
+        }
+      ]
+    }
+  ]
+}

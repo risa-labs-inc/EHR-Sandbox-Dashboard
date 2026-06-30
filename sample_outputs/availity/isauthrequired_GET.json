@@ -1,0 +1,70 @@
+{
+  "serviceReview": {
+    "id": "00012345678910",
+    "customerId": "121212",
+    "providerNotes": [
+      {
+        "message": "Sample message. "
+      }
+    ],
+    "payer": {
+      "id": "99999",
+      "name": "Health Plan One"
+    },
+    "requestingProvider": {
+      "phone": "1111111111",
+      "fax": "4444444444",
+      "contactName": "Test, AuthorizedContactOne",
+      "contactPhone": "1111111111",
+      "emailAddress": "AVTest11@availity.com",
+      "roleCode": "1P"
+    },
+    "subscriber": {
+      "firstName": "PATIENTONE",
+      "lastName": "TEST",
+      "memberId": "ABC123456789",
+      "groupNumber": "565656",
+      "lineOfBusiness": "Medicare Advantage"
+    },
+    "patient": {
+      "firstName": "PATIENTONE",
+      "lastName": "TEST",
+      "subscriberRelationshipCode": "18",
+      "birthDate": "1990-01-01",
+      "genderCode": "M"
+    },
+    "organization": {
+      "name": "Availity Test Org"
+    },
+    "diagnoses": [],
+    "requestType": "Outpatient Authorization",
+    "requestTypeCode": "HS",
+    "fromDate": "2024-01-05",
+    "procedures": [
+      {
+        "status": "Auth Required",
+        "statusCode": "AR",
+        "statusReasons": [
+          {
+            "code": "",
+            "value": ""
+          }
+        ],
+        "notes": [
+          {
+            "message": ""
+          }
+        ],
+        "code": "00000",
+        "qualifierCode": "AB",
+        "referenceIdentification": "01"
+      }
+    ],
+    "prescriptions": [],
+    "supplementalInformation": {
+      "attachments": [],
+      "isAwaitingAsyncPush": false
+    }
+  },
+  "_note": "The answer lives in procedures[].status: 'Auth Required' (statusCode AR) or 'No Auth Required'."
+}

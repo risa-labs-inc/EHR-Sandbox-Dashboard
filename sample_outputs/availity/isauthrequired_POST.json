@@ -1,0 +1,11 @@
+{
+  "links": {
+    "self": {
+      "href": "https://api.availity.com/value-adds/v1/isauthrequired/00012345678910"
+    }
+  },
+  "id": "00012345678910",
+  "status": "In Progress",
+  "statusCode": "0",
+  "_note": "Per Availity docs, a valid POST /value-adds/v1/isauthrequired responds with an ID in the Location URL (no full body). Use that id in GET /value-adds/v1/isauthrequired/{id} to poll for the result. This API is in a closed pilot and is currently unavailable to new customers."
+}

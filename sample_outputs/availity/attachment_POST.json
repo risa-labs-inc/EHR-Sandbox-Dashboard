@@ -1,0 +1,8 @@
+{
+  "id": "16536719344950000248823246346246",
+  "status": "SUBMITTED",
+  "responseMessage": [
+    "Processed PDF Attachment Response"
+  ],
+  "_note": "Per Availity docs, a valid POST /value-adds/v2/attachments responds with an ID in the Location URL. Use that id in GET /value-adds/v2/attachments/{id} to poll the attachment status. (For the Medical Claim Attachments API the POST returns { id } and you poll GET .../status/{requestId}.)"
+}
