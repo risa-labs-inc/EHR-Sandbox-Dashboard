@@ -9,17 +9,46 @@
 </head>
 <body class="page-home">
   {% include "_auth_badge.html" %}
-  <div class="home-wrap">
+  <aside class="atlas-rail" aria-label="Atlas sections">
+    <a class="atlas-rail-brand" href="{{ url_for('home') }}" title="Health Data Atlas">
+      <img
+        class="atlas-rail-logo"
+        src="{{ url_for('static', filename='logos/risa.jpeg') }}"
+        alt="RISA"
+        width="180"
+        height="64"
+      />
+    </a>
+
+    <nav class="atlas-rail-nav" aria-label="Atlas sections">
+      <div class="atlas-rail-sections-label">Sections</div>
+      <ul class="atlas-nav-sections">
+        {% for cat in categories %}
+        <li>
+          <button
+            type="button"
+            class="atlas-nav-section{% if loop.first %} active{% endif %}"
+            data-atlas-section="{{ loop.index }}"
+            aria-current="{{ 'true' if loop.first else 'false' }}"
+          >
+            <span class="atlas-nav-heading-dot" aria-hidden="true"></span>
+            <span class="atlas-nav-title">
+              {% if cat.short_name == 'EHR' %}Electronic Health Record (EHR){% else %}{{ cat.short_name or cat.name }}{% endif %}
+            </span>
+            <span class="atlas-nav-count">{{ cat.systems | length }}</span>
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="atlas-rail-footer">
+      <a class="atlas-rail-footer-link" href="{{ url_for('logout_session') }}" title="Log out">Log out</a>
+    </div>
+  </aside>
+
+  <div class="atlas-shell">
     <header class="home-header">
-      <div class="home-risa-brand">
-        <img
-          class="home-risa-logo"
-          src="{{ url_for('static', filename='logos/risa.jpeg') }}"
-          alt="RISA"
-          width="200"
-          height="80"
-        />
-      </div>
       <div class="home-header-text">
         <h1>{% block page_heading %}Health Data Atlas{% endblock %}</h1>
         <p class="muted">{% block subtitle %}Mapping the healthcare data ecosystem; what exists, where, and how to use it!{% endblock %}</p>
@@ -45,8 +74,15 @@
       </nav>
     </header>
 
-    {% block content %}{% endblock %}
+    <div class="atlas-shell-body" id="atlas-scroll-root">
+      <div class="home-wrap">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
   </div>
-  {% block scripts %}{% endblock %}
+
+  {% block scripts %}
+  <script src="{{ url_for('static', filename='atlas_nav.js') }}"></script>
+  {% endblock %}
 </body>
 </html>

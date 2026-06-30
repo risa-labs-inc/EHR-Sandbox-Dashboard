@@ -101,16 +101,19 @@ def _guide_categories() -> list[dict]:
     return [
         {
             "name": "Electronic Health Record (EHR)",
+            "short_name": "EHR",
             "platforms": [build_platform(e, display_name(e), "ehr") for e in EHRS],
         },
         {
             "name": "Pharmacy Management Systems (PMS)",
+            "short_name": "PMS",
             "platforms": [
                 build_platform(p, display_name(p), "pharmacy") for p in PHARMACY_SYSTEMS
             ],
         },
         {
             "name": "Clearinghouses",
+            "short_name": "Clearinghouses",
             "platforms": [
                 build_platform(c, display_name(c), "clearinghouse") for c in CLEARINGHOUSE_SYSTEMS
             ],
@@ -123,14 +126,17 @@ def home():
     categories = [
         {
             "name": "Electronic Health Record (EHR)",
+            "short_name": "EHR",
             "systems": [_ehr_card(e) for e in EHRS],
         },
         {
             "name": "Pharmacy Management Systems",
+            "short_name": "PMS",
             "systems": [_pharmacy_card(p) for p in PHARMACY_SYSTEMS],
         },
         {
             "name": "Clearinghouses",
+            "short_name": "Clearinghouses",
             "systems": [_clearinghouse_card(c) for c in CLEARINGHOUSE_SYSTEMS],
         },
     ]
