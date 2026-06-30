@@ -235,7 +235,10 @@ html:has(body.page-home) {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .atlas-rail-footer-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 8px 10px;
   border-radius: 8px;
   font-size: 0.8rem;
@@ -248,6 +251,9 @@ html:has(body.page-home) {
 .atlas-rail-footer-link:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
+}
+.atlas-rail-footer-icon {
+  flex: none;
 }
 
 .atlas-shell {

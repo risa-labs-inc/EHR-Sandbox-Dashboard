@@ -8,7 +8,6 @@
   {% include "_auth_head.html" %}
 </head>
 <body class="page-home">
-  {% include "_auth_badge.html" %}
   <aside class="atlas-rail" aria-label="Atlas sections">
     <a class="atlas-rail-brand" href="{{ url_for('home') }}" title="Health Data Atlas">
       <img
@@ -43,7 +42,14 @@
     </nav>
 
     <div class="atlas-rail-footer">
-      <a class="atlas-rail-footer-link" href="{{ url_for('logout_session') }}" title="Log out">Log out</a>
+      <a class="atlas-rail-footer-link" href="#" data-signout title="Log out" aria-label="Log out">
+        <svg class="atlas-rail-footer-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 8l-4 4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 12H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Log out</span>
+      </a>
     </div>
   </aside>
 
