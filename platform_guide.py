@@ -575,12 +575,30 @@ def _glance_for_platform(
             system_id, GETTABLE_FIELDS.get(system_id, {})
         )
 
+    cat = category.lower()
+    if cat == "ehr":
+        data_type_label = "Data standard"
+        data_type = "FHIR R4" if copy.get("is_fhir", True) else "REST"
+    elif cat == "pharmacy":
+        data_type_label = "Data source"
+        data_type = "API documentation"
+    elif cat == "clearinghouse":
+        data_type_label = "Data access"
+        data_type = "REST API"
+    else:
+        data_type_label = "Data type"
+        data_type = "FHIR R4" if copy.get("is_fhir", True) else "REST"
+
+    data_type_label = glance_cfg.get("data_type_label", data_type_label)
+    data_type = glance_cfg.get("data_type", data_type)
+
     return {
         "platform_name": display_name,
         "category": {"ehr": "EHR", "pharmacy": "PMS", "clearinghouse": "Clearinghouse"}.get(
             category.lower(), category.upper()
         ),
-        "data_type": "FHIR R4" if copy.get("is_fhir", True) else "REST",
+        "data_type_label": data_type_label,
+        "data_type": data_type,
         "test_users": test_users,
         "has_master": has_master,
         "sandbox_tested": sandbox_tested,
