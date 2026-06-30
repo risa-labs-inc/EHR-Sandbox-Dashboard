@@ -195,6 +195,11 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         "show_sandbox_endpoints": False,
         "download_table": "api",
         "tags": ["Clearinghouse", "REST", "HIPAA X12", "Internal"],
+        "glance": {
+            "extra_rows": [
+                {"label": "Transaction standard", "value": "HIPAA X12"},
+            ],
+        },
         "research_links": [
             {
                 "label": "Availity — Notion research",
@@ -599,6 +604,7 @@ def _glance_for_platform(
         ),
         "data_type_label": data_type_label,
         "data_type": data_type,
+        "extra_rows": list(glance_cfg.get("extra_rows") or []),
         "test_users": test_users,
         "has_master": has_master,
         "sandbox_tested": sandbox_tested,

@@ -14,6 +14,12 @@
       <span class="guide-glance-k">{{ g.data_type_label }}</span>
       <span class="guide-glance-v">{{ g.data_type }}</span>
     </li>
+    {% for row in g.extra_rows %}
+    <li class="guide-glance-item">
+      <span class="guide-glance-k">{{ row.label }}</span>
+      <span class="guide-glance-v">{{ row.value }}</span>
+    </li>
+    {% endfor %}
     <li class="guide-glance-item">
       <span class="guide-glance-k">Test users</span>
       <span class="guide-glance-v">
