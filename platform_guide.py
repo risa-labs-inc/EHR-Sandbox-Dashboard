@@ -1,4 +1,4 @@
-"""Platform Guide content — metadata, endpoints from exports, test patients, downloads."""
+"""Platform Guide content ; metadata, endpoints from exports, test patients, downloads."""
 
 from __future__ import annotations
 
@@ -30,16 +30,16 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             "Epic on FHIR R4 sandbox exports for prior-authorization field mapping."
         ),
         "fhir_links": [
-            {"label": "Epic on FHIR — Documentation", "url": "https://fhir.epic.com/Documentation"},
+            {"label": "Epic on FHIR ; Documentation", "url": "https://fhir.epic.com/Documentation"},
             {"label": "FHIR R4 specifications", "url": "https://fhir.epic.com/Specifications"},
-            {"label": "Open Epic — R4 endpoints", "url": "https://open.epic.com/Endpoints/R4"},
-            {"label": "Open Epic — Developer portal", "url": "https://open.epic.com/"},
+            {"label": "Open Epic ; R4 endpoints", "url": "https://open.epic.com/Endpoints/R4"},
+            {"label": "Open Epic ; Developer portal", "url": "https://open.epic.com/"},
             {"label": "FHIR R4 specification (HL7)", "url": "https://hl7.org/fhir/R4/"},
         ],
         "is_fhir": True,
         "research_links": [
             {
-                "label": "Sandbox Outputs — Notion research",
+                "label": "Sandbox Outputs ; Notion research",
                 "url": "https://app.notion.com/p/Sandbox-Outputs-366e5f5a1a628032bd73d11d2f4558d3",
                 "summary": (
                     "Internal RISA notes on Epic sandbox outputs, OAuth flow, test patients, "
@@ -63,7 +63,7 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         "fhir_links": [
             {"label": "eCW FHIR portal", "url": "https://fhir.eclinicalworks.com/"},
             {
-                "label": "eCW Open Developer — API documentation",
+                "label": "eCW Open Developer ; API documentation",
                 "url": "https://fhir.eclinicalworks.com/ecwopendev/documentation",
             },
             {"label": "SMART App Launch", "url": "https://hl7.org/fhir/smart-app-launch/"},
@@ -71,7 +71,7 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         "is_fhir": True,
         "research_links": [
             {
-                "label": "eClinical Works Sandbox — Notion research",
+                "label": "eClinical Works Sandbox ; Notion research",
                 "url": "https://app.notion.com/p/eClinical-Works-Sandbox-36de5f5a1a6280318b06ef3fb51f9493",
                 "summary": (
                     "RISA research on eCW staging FHIR, SMART launch, export shapes, and "
@@ -89,14 +89,14 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         "fhir_links": [
             {"label": "NextGen Developer Portal", "url": "https://developer.nextgen.com/"},
             {
-                "label": "NextGen Office FHIR R4 Patient Access API — Developer Guide (PDF)",
+                "label": "NextGen Office FHIR R4 Patient Access API ; Developer Guide (PDF)",
                 "url": "https://www.nextgen.com/-/media/files/ngo/NextGen-Office-FHIR-R4-Patient-Access-API-Developer-Guide",
             },
         ],
         "is_fhir": True,
         "research_links": [
             {
-                "label": "NextGen Sandbox Integration — Notion research",
+                "label": "NextGen Sandbox Integration ; Notion research",
                 "url": "https://app.notion.com/p/Nextgen-Sandbox-Integration-373e5f5a1a6280ebb98eecdb2ddce524",
                 "summary": (
                     "Sandbox integration findings for NextGen FHIR R4, test patient access, "
@@ -127,17 +127,17 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         ),
         "fhir_links": [
             {
-                "label": "Ontada developer portal — login",
+                "label": "Ontada developer portal ; login",
                 "url": "https://developer-portal.ontada.com/",
             },
         ],
         "is_fhir": True,
         "research_links": [
             {
-                "label": "iKnowMed (IKM) — Notion research",
+                "label": "iKnowMed (IKM) ; Notion research",
                 "url": "https://app.notion.com/p/iKnowMed-IKM-372e5f5a1a6280298507f834c2900f53",
                 "summary": (
-                    "Oncology EHR sandbox research — Ontada developer portal, FHIR gateway "
+                    "Oncology EHR sandbox research ; Ontada developer portal, FHIR gateway "
                     "access, and specialty PA data mapping notes."
                 ),
                 "tags": ["Sandbox", "Oncology", "Internal"],
@@ -150,17 +150,17 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
             "patient and drug responses are flattened in the atlas for comparison with EHR data."
         ),
         "fhir_links": [
-            {"label": "BestRx — product overview", "url": "https://www.bestrx.com/"},
-            {"label": "BestRx Connect — API documentation", "url": "https://apidocs.bestrxconnect.com/"},
+            {"label": "BestRx ; product overview", "url": "https://www.bestrx.com/"},
+            {"label": "BestRx Connect ; API documentation", "url": "https://apidocs.bestrxconnect.com/"},
         ],
         "sample_output_links": [
             {
-                "label": "Patient API — Get Patient",
+                "label": "Patient API ; Get Patient",
                 "url": "https://apidocs.bestrxconnect.com/patient-api/overview",
                 "file": "patient_get_patient.json",
             },
             {
-                "label": "Drug API — Get Drug Information",
+                "label": "Drug API ; Get Drug Information",
                 "url": "https://apidocs.bestrxconnect.com/api-5031314",
                 "file": "drug_get_drug_information.json",
             },
@@ -172,7 +172,7 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
     "availity": {
         "what_it_is": (
             "Availity is a healthcare clearinghouse for HIPAA X12 transactions and "
-            "REST APIs — eligibility (270/271), claim status (276/277), prior auth "
+            "REST APIs ; eligibility (270/271), claim status (276/277), prior auth "
             "(278), and related value-add services. This atlas uses saved sample "
             "outputs for field exploration."
         ),
@@ -187,7 +187,7 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
                 "url": "https://developer.availity.com/blog/2025/3/25/hipaa-transactions",
             },
             {
-                "label": "Sample outputs — Notion",
+                "label": "Sample outputs ; Notion",
                 "url": "https://app.notion.com/p/Sample-Outputs-38ee5f5a1a6280d09a1afb9b3a812882",
             },
         ],
@@ -202,7 +202,7 @@ _PLATFORM_COPY: dict[str, dict[str, Any]] = {
         },
         "research_links": [
             {
-                "label": "Availity — Notion research",
+                "label": "Availity ; Notion research",
                 "url": "https://app.notion.com/p/Availity-38ee5f5a1a628078aef0cbc45b1455b4",
                 "summary": (
                     "RISA research on Availity sandbox APIs, OAuth, sample outputs, "
@@ -336,7 +336,7 @@ def _guide_url_ok(url: str) -> bool:
 
 def _fmt_ts(raw: str | None) -> str:
     if not raw:
-        return "—"
+        return ""
     try:
         dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
         return dt.strftime("%Y-%m-%d %H:%M UTC")
@@ -354,7 +354,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 def _patient_fhir_link(raw: dict[str, Any]) -> str | None:
     """Browsable link only when export stores an explicit patient_resource_url (e.g. eCW).
 
-    Do not auto-build FHIR base + /Patient/{id} links — Epic and other vendors
+    Do not auto-build FHIR base + /Patient/{id} links ; Epic and other vendors
   require OAuth; opening those URLs in a browser returns 403.
     """
     urls = raw.get("urls") if isinstance(raw.get("urls"), dict) else {}
@@ -453,14 +453,14 @@ def _downloads_for_system(system_id: str) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     if system_id == "bestrx":
         for label, path, fname in (
-            ("Master — patient sample", PATIENT_FILE, "patient_get_patient.json"),
-            ("Master — drug sample", DRUG_FILE, "drug_get_drug_information.json"),
+            ("Master ; patient sample", PATIENT_FILE, "patient_get_patient.json"),
+            ("Master ; drug sample", DRUG_FILE, "drug_get_drug_information.json"),
         ):
             if path.is_file():
                 row = {
                     "type_label": label,
                     "filename": fname,
-                    "exported_at": "—",
+                    "exported_at": "",
                     "download_name": fname,
                 }
                 row["slot_key"] = download_slot_key(row, system_id)

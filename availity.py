@@ -46,7 +46,7 @@ _SAMPLE_APIS: dict[str, dict[str, Any]] = {
     },
     "auth-attachments": {
         "prefix": "attachment",
-        "name": "Attachments — Auth",
+        "name": "Attachments; Auth",
         "endpoints": {
             "POST": "POST /value-adds/v2/attachments",
             "GET": "GET /value-adds/v2/attachments/{id}",

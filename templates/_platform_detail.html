@@ -44,7 +44,7 @@
 
 {% if p.show_sandbox_endpoints %}
 <div class="guide-section">
-  <h4 class="guide-section-title">Sandbox access — technical endpoints</h4>
+  <h4 class="guide-section-title">Sandbox access; technical endpoints</h4>
   {% if p.endpoints %}
   <div class="guide-table-wrap">
     <table class="guide-table">
@@ -149,7 +149,7 @@
             <span>ID: <code>{{ pt.patient_id }}</code></span>
             {% endif %}
             {% if pt.fhir_api_ref %}
-            <span class="guide-fhir-ref" title="API endpoint — not openable in a browser without a token">FHIR: <code>{{ pt.fhir_api_ref }}</code></span>
+            <span class="guide-fhir-ref" title="API endpoint; not openable in a browser without a token">FHIR: <code>{{ pt.fhir_api_ref }}</code></span>
             {% endif %}
             {% if pt.dob %}<span>DOB: {{ pt.dob }}</span>{% endif %}
             {% if pt.gender and pt.gender != 'unknown' %}<span>{{ pt.gender | capitalize }}</span>{% endif %}
@@ -205,7 +205,7 @@
         <tr>
           <td>
             <span class="guide-dl-type">{{ row.type_label }}</span>
-            {% if row.exported_at and row.exported_at != '—' %}
+            {% if row.exported_at %}
             <span class="guide-ts">{{ row.exported_at }}</span>
             {% endif %}
             <code class="guide-dl-file">{{ row.filename }}</code>
