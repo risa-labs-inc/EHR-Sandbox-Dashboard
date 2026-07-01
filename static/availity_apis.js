@@ -224,11 +224,11 @@ export const APIS = [
       {
         id: "search", label: "Search", method: "GET", path: "/availity/v2/service-reviews", async: true,
         demoScenarios: ["SRI-GetComplete-i", "SRI-GetAccepted-i", "SRI-GetInProgress-i", "SRI-GetPayerError-i", "SRI-GetPayerDown-i"],
-        sample: { query: { payerId: "BCBSF", patientLastName: "Doe", memberId: "TEST1" } },
+        sample: { query: { payerId: "AETNA", patientLastName: "DOE", memberId: "TEST123456789" } },
         queryFields: [
-          { name: "payerId", default: "BCBSF" },
-          { name: "patientLastName", default: "Smith" },
-          { name: "memberId", default: "TEST1" },
+          { name: "payerId", default: "AETNA" },
+          { name: "patientLastName", default: "DOE" },
+          { name: "memberId", default: "TEST123456789" },
         ],
       },
       {
