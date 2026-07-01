@@ -248,7 +248,9 @@ def clearinghouse_sample(filename: str):
     path = resolve_availity_sample(filename)
     if not path:
         return jsonify({"message": "Sample not found"}), 404
-    return send_file(path, mimetype="application/json")
+    resp = send_file(path, mimetype="application/json")
+    resp.headers["Cache-Control"] = "no-store, max-age=0"
+    return resp
 
 
 @app.route("/api/context")

@@ -299,8 +299,10 @@ function collectPayload() {
   };
 
   if (op.pathParams) {
+    payload.pathIds = {};
     for (const p of op.pathParams) {
       const v = (document.getElementById("path__" + p.name)?.value || "").trim();
+      if (v) payload.pathIds[p.name] = v;
       payload.path = payload.path.replace(
         "{" + p.name + "}",
         v ? encodeURIComponent(v) : "{" + p.name + "}"
@@ -353,6 +355,11 @@ function buildValueMap(payload) {
 
   for (const [k, v] of Object.entries(payload.query || {})) put(k, v);
 
+  for (const [name, value] of Object.entries(payload.pathIds || {})) {
+    if (name === "id") put("transactionId", value);
+    else put(name, value);
+  }
+
   if (payload.body && typeof payload.body === "object" && !Array.isArray(payload.body)) {
     for (const [k, v] of Object.entries(payload.body)) {
       put(k, v);
@@ -365,9 +372,6 @@ function buildValueMap(payload) {
     }
     flattenJsonValues(payload.body, "", map);
   }
-
-  const idMatch = payload.path.match(/\/([^/?]+)$/);
-  if (idMatch && idMatch[1] && !idMatch[1].includes("{")) put("id", decodeURIComponent(idMatch[1]));
 
   return map;
 }
@@ -423,7 +427,6 @@ function patchObject(node, map, parentKey) {
       continue;
     }
     if (typeof val === "string" || typeof val === "number" || typeof val === "boolean") {
-      if (map[key] !== undefined) node[key] = map[key];
       if (key === "id" && parentKey === "payer" && map.payerId) node[key] = map.payerId;
       if (key === "payerId" && map.payerId) node[key] = map.payerId;
       if (key === "firstName" && parentKey === "patient" && map.patientFirstName) {
@@ -438,7 +441,7 @@ function patchObject(node, map, parentKey) {
       }
       if (key === "npi" && map.providerNpi) node[key] = map.providerNpi;
       if (key === "name" && parentKey === "payer" && map.payerId) node[key] = map.payerId;
-      if (key === "id" && parentKey === null && map.id) node[key] = map.id;
+      if (key === "id" && parentKey === null && map.transactionId) node[key] = map.transactionId;
     }
   }
 }
@@ -483,7 +486,7 @@ async function onSend() {
   el.sendBtn.disabled = true;
   el.response.innerHTML = '<div class="av-placeholder">Loading sample…</div>';
   try {
-    const res = await fetch(`/clearinghouse/samples/${file}`);
+    const res = await fetch(`/clearinghouse/samples/${file}`, { cache: "no-store" });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || `Sample ${file} not found`);
     const payload = collectPayload();
