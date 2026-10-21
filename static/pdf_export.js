@@ -85,11 +85,8 @@
             ".subpanel",
             ".field",
             ".panel-head",
-            ".gpr-section",
-            ".gpr-section-head",
             ".gpr-research",
             ".gpr-table tr",
-            ".gpr-table-wrap",
             ".gpr-glance"
           ]
         }

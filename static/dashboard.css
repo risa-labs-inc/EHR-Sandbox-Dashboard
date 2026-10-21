@@ -2279,13 +2279,9 @@ html:has(body.page-workspace) {
   .gpr-col-main { flex: 1.5 1 0; min-width: 0; }
   .gpr-col-side { flex: 1 1 0; min-width: 0; }
 
-  .gpr-section {
-    margin-bottom: 24px;
-    /* Keep each section (heading + content) together so a heading is never
-       orphaned at the bottom of a page with its table on the next page. */
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
+  .gpr-section { margin-bottom: 24px; }
+  /* Keep a heading attached to the start of its content (no orphaned heading),
+     but let long sections flow across pages so there are no big blank gaps. */
   .gpr-section-head { break-after: avoid; page-break-after: avoid; }
   .gpr-table tr { break-inside: avoid; page-break-inside: avoid; }
   .gpr-table thead { display: table-header-group; }
@@ -2329,7 +2325,7 @@ html:has(body.page-workspace) {
   }
 
   /* Endpoints / patients table */
-  .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; break-inside: avoid; }
+  .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; }
   .gpr-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.85rem; }
   .gpr-table thead th {
     text-align: left;
@@ -2614,11 +2610,7 @@ html.pdf-exporting .guide-print-report-wrap[hidden] { display: none !important; 
 html.pdf-exporting .gpr-cols { display: flex; gap: 34px; align-items: flex-start; }
 html.pdf-exporting .gpr-col-main { flex: 1.5 1 0; min-width: 0; }
 html.pdf-exporting .gpr-col-side { flex: 1 1 0; min-width: 0; }
-html.pdf-exporting .gpr-section {
-  margin-bottom: 24px;
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
+html.pdf-exporting .gpr-section { margin-bottom: 24px; }
 html.pdf-exporting .gpr-section-head { break-after: avoid; page-break-after: avoid; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 html.pdf-exporting .gpr-section-head h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: #10233f; }
 html.pdf-exporting .gpr-icon {
@@ -2634,7 +2626,7 @@ html.pdf-exporting .gpr-text { margin: 0; font-size: 0.92rem; line-height: 1.6; 
 html.pdf-exporting .gpr-link-list { list-style: none; margin: 0; padding: 0; }
 html.pdf-exporting .gpr-link-list li { margin-bottom: 8px; }
 html.pdf-exporting .gpr-link-list a { color: #2f6fed; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
-html.pdf-exporting .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; break-inside: avoid; }
+html.pdf-exporting .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; }
 html.pdf-exporting .gpr-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.85rem; }
 html.pdf-exporting .gpr-table thead th {
   text-align: left; padding: 11px 16px; font-size: 0.7rem; font-weight: 700;
