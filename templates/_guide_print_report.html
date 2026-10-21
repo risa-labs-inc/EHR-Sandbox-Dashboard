@@ -43,16 +43,24 @@
     </div>
     {% for link in p.research_links %}
     <div class="gpr-research">
-      <div class="gpr-research-head">
-        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
-        {% if link.tags %}
-        <span class="gpr-research-tags">
-          {% for tag in link.tags %}<span class="gpr-tag">{{ tag }}</span>{% endfor %}
-        </span>
-        {% endif %}
+      <span class="gpr-research-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h4"/></svg>
+      </span>
+      <div class="gpr-research-body">
+        <div class="gpr-research-head">
+          <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+          {% if link.tags %}
+          <span class="gpr-research-tags">
+            {% for tag in link.tags %}<span class="gpr-tag">{{ tag }}</span>{% endfor %}
+          </span>
+          {% endif %}
+        </div>
+        {% if link.summary %}<p class="gpr-research-summary">{{ link.summary }}</p>{% endif %}
+        <div class="gpr-research-foot">
+          <code class="gpr-research-url">{{ link.url }}</code>
+          <a class="gpr-research-open" href="{{ link.url }}" target="_blank" rel="noopener noreferrer">Open in Notion →</a>
+        </div>
       </div>
-      {% if link.summary %}<p class="gpr-text">{{ link.summary }}</p>{% endif %}
-      <div class="gpr-research-url"><code>{{ link.url }}</code></div>
     </div>
     {% endfor %}
   </div>

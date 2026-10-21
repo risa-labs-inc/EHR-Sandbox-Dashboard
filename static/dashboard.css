@@ -2406,35 +2406,96 @@ html:has(body.page-workspace) {
 
   /* RISA research (Notion) */
   .gpr-research {
-    border: 1px solid #e1e6ec;
-    border-left: 3px solid #7048e8;
-    border-radius: 10px;
-    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border: 1px solid #e6e2f5;
+    border-radius: 12px;
+    padding: 16px 18px;
     margin-bottom: 12px;
+    background: linear-gradient(180deg, #fbfaff 0%, #ffffff 100%);
     break-inside: avoid;
     page-break-inside: avoid;
   }
+  .gpr-research-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f3edfd 0%, #e7dbfa 100%);
+    border: 1px solid #e0d4f7;
+    color: #6b3fd4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .gpr-research-icon svg { width: 20px; height: 20px; }
+  .gpr-research-body { flex: 1; min-width: 0; }
   .gpr-research-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
   }
   .gpr-research-head a {
-    color: #7048e8;
-    font-weight: 600;
-    font-size: 0.92rem;
+    color: #10233f;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
     text-decoration: none;
   }
   .gpr-research-tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
-  .gpr-research-url { margin-top: 8px; }
-  .gpr-research-url code {
+  .gpr-research-summary {
+    margin: 0 0 14px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #4a5866;
+  }
+  .gpr-research-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid #eceaf6;
+  }
+  .gpr-research-url {
+    flex: 1 1 auto;
+    min-width: 0;
     font-family: "SF Mono", ui-monospace, Menlo, monospace;
     font-size: 0.72rem;
-    color: #7a8794;
-    word-break: break-all;
+    color: #6a7683;
+    background: #f4f6f9;
+    border: 1px solid #e6eaf0;
+    border-radius: 6px;
+    padding: 4px 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .gpr-research-open {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b3fd4;
+    text-decoration: none;
+    white-space: nowrap;
+    background: #f3edfd;
+    border: 1px solid #e0d4f7;
+    border-radius: 999px;
+    padding: 5px 14px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* Footer */
@@ -2597,30 +2658,85 @@ html.pdf-exporting .gpr-tag {
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
 html.pdf-exporting .gpr-research {
-  border: 1px solid #e1e6ec;
-  border-left: 3px solid #7048e8;
-  border-radius: 10px;
-  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border: 1px solid #e6e2f5;
+  border-radius: 12px;
+  padding: 16px 18px;
   margin-bottom: 12px;
+  background: linear-gradient(180deg, #fbfaff 0%, #ffffff 100%);
   break-inside: avoid;
   page-break-inside: avoid;
 }
+html.pdf-exporting .gpr-research-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3edfd 0%, #e7dbfa 100%);
+  border: 1px solid #e0d4f7;
+  color: #6b3fd4;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+html.pdf-exporting .gpr-research-icon svg { width: 20px; height: 20px; }
+html.pdf-exporting .gpr-research-body { flex: 1; min-width: 0; }
 html.pdf-exporting .gpr-research-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
 }
-html.pdf-exporting .gpr-research-head a { color: #7048e8; font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+html.pdf-exporting .gpr-research-head a { color: #10233f; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; text-decoration: none; }
 html.pdf-exporting .gpr-research-tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
-html.pdf-exporting .gpr-research-url { margin-top: 8px; }
-html.pdf-exporting .gpr-research-url code {
+html.pdf-exporting .gpr-research-summary { margin: 0 0 14px; font-size: 0.88rem; line-height: 1.6; color: #4a5866; }
+html.pdf-exporting .gpr-research-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #eceaf6;
+}
+html.pdf-exporting .gpr-research-url {
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: "SF Mono", ui-monospace, Menlo, monospace;
   font-size: 0.72rem;
-  color: #7a8794;
-  word-break: break-all;
+  color: #6a7683;
+  background: #f4f6f9;
+  border: 1px solid #e6eaf0;
+  border-radius: 6px;
+  padding: 4px 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+html.pdf-exporting .gpr-research-open {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b3fd4;
+  text-decoration: none;
+  white-space: nowrap;
+  background: #f3edfd;
+  border: 1px solid #e0d4f7;
+  border-radius: 999px;
+  padding: 5px 14px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 html.pdf-exporting .gpr-footer {
   display: flex; justify-content: space-between; margin-top: 28px; padding-top: 12px;
