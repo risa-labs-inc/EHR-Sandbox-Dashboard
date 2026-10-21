@@ -814,6 +814,14 @@ html:has(body.page-guide) {
   margin-left: auto;
   flex-shrink: 0;
 }
+.guide-shell-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.guide-shell-header-actions .home-top-nav { margin-left: 0; }
 .guide-shell-header h1 {
   margin: 0 0 6px;
   font-size: 1.55rem;
@@ -2078,4 +2086,537 @@ html:has(body.page-workspace) {
 .page-availity .av-copy-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* Top-bar right-side actions (test-user select + export button) */
+.top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+.top-actions .user-slot-wrap { margin-left: 0; }
+.export-pdf-btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Print-only branded header (RISA + platform logos) — hidden on screen */
+.print-header { display: none; }
+.guide-print-reports { display: none; }
+
+/* ===== PDF export (window.print) — hide chrome, flow all content ===== */
+@media print {
+  html,
+  html:has(body.page-workspace) {
+    height: auto !important;
+    overflow: visible !important;
+    visibility: visible !important;
+  }
+  body { background: #fff !important; }
+  .page-workspace {
+    display: block;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .rail,
+  .back-link,
+  .user-slot-wrap,
+  .export-pdf-btn,
+  .auth-badge,
+  .tip-anchor,
+  .availity-actions,
+  .master-legend {
+    display: none !important;
+  }
+  .main-shell { overflow: visible; background: #fff; }
+  .top-bar { display: none !important; }
+  .print-header {
+    display: block !important;
+    padding: 0 0 20px;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #1a1d21;
+  }
+  .print-header .logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+  }
+  /* RISA wordmark (cropped) — sized to sit level with the vendor mark. */
+  .print-logo-risa {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+  }
+  .print-logo-platform {
+    height: 40px;
+    width: auto;
+    max-width: 170px;
+    object-fit: contain;
+  }
+  .print-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .print-subtitle {
+    margin-top: 6px;
+    font-size: 1rem;
+    color: #555;
+    font-weight: 500;
+  }
+  .print-meta {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #999;
+    letter-spacing: 0.01em;
+  }
+  .form-layout { display: block; }
+  .form-scroll { overflow: visible; padding: 16px 4px 0; }
+  .panel {
+    border: none;
+    border-radius: 0;
+    padding: 0 0 14px;
+    margin: 0 0 16px;
+    break-inside: auto;
+  }
+  .panel-head { border-bottom: 1px solid #1a1d21; padding-bottom: 8px; }
+  .subpanel {
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 6px;
+    margin-top: 14px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .subhead { color: #111; font-weight: 700; }
+  .field { break-inside: avoid; page-break-inside: avoid; }
+  .field input,
+  .field textarea {
+    border: none;
+    border-bottom: 1px solid #999;
+    border-radius: 0;
+    background: #fff;
+    padding: 3px 2px;
+    color: #000;
+  }
+  .field-label-row label { font-weight: 600; }
+  .field-status {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ===== Platform Guide print — branded report ===== */
+  html:has(body.page-guide) {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .page-guide {
+    display: block;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .guide-rail,
+  .home-top-nav,
+  .export-pdf-btn,
+  .guide-body-layout {
+    display: none !important;
+  }
+  .guide-shell { overflow: visible; background: #fff; }
+  .guide-shell-header { display: none !important; }
+  .guide-shell-body { overflow: visible; padding: 0; }
+
+  /* Header: RISA logo · "<Name> Platform Guide" · platform logo */
+  .print-header-guide {
+    display: flex !important;
+    align-items: center;
+    gap: 20px;
+    padding: 0 0 16px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid #1a1d21;
+  }
+  .print-header-guide .print-logo-risa {
+    height: 38px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+  }
+  .print-header-guide .print-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.01em;
+  }
+  .print-header-guide .print-logo-platform {
+    height: 38px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+  }
+
+  /* The on-screen guide body is replaced by the print report */
+  .guide-print-reports { display: block; }
+  .guide-print-report-wrap[hidden] { display: none !important; }
+
+  /* Two-column body */
+  .gpr-cols {
+    display: flex;
+    gap: 34px;
+    align-items: flex-start;
+  }
+  .gpr-col-main { flex: 1.5 1 0; min-width: 0; }
+  .gpr-col-side { flex: 1 1 0; min-width: 0; }
+
+  .gpr-section { margin-bottom: 24px; }
+  /* Keep a section heading attached to its content; keep short sections
+     whole, but let long ones (big tables) flow across pages. */
+  .gpr-section-head { break-after: avoid; page-break-after: avoid; }
+  .gpr-section:has(> .gpr-table-wrap:only-child),
+  .gpr-section:has(> .gpr-table-wrap + .gpr-link-list),
+  .gpr-section:has(> .gpr-link-list + .gpr-table-wrap) {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .gpr-table tr { break-inside: avoid; page-break-inside: avoid; }
+  .gpr-table thead { display: table-header-group; }
+  .print-header-guide { break-after: avoid; page-break-after: avoid; }
+  .gpr-section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .gpr-section-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #10233f;
+  }
+  .gpr-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .gpr-icon svg { width: 16px; height: 16px; }
+  .gpr-icon-blue { background: #e3edff; color: #2f6fed; }
+  .gpr-icon-green { background: #e3f6ec; color: #2b8a3e; }
+  .gpr-icon-purple { background: #efe7fb; color: #7048e8; }
+  .gpr-text { margin: 0; font-size: 0.92rem; line-height: 1.6; color: #33404d; }
+
+  .gpr-link-list { list-style: none; margin: 0; padding: 0; }
+  .gpr-link-list li { margin-bottom: 8px; }
+  .gpr-link-list a {
+    color: #2f6fed;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Endpoints / patients table */
+  .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; break-inside: avoid; }
+  .gpr-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.85rem; }
+  .gpr-table thead th {
+    text-align: left;
+    padding: 11px 16px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #5a6b7b;
+    background: #f4f7fa;
+    border-bottom: 1px solid #dde3ea;
+  }
+  .gpr-table tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #eef1f5;
+    color: #33404d;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+  .gpr-table tbody tr:last-child td { border-bottom: none; }
+  .gpr-td-label { font-weight: 600; color: #10233f; }
+  .gpr-td-value code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.78rem;
+    color: #33404d;
+  }
+  .gpr-td-mono {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.76rem;
+    color: #33404d;
+  }
+  .gpr-nowrap { white-space: nowrap; }
+  .gpr-td-meta { color: #6a7683; font-size: 0.8rem; }
+  .gpr-td-meta span { margin-right: 12px; }
+
+  /* At a Glance */
+  .gpr-glance {
+    margin-top: 8px;
+    padding: 20px 24px;
+    border-radius: 14px;
+    background: #f2f8f4;
+    break-inside: avoid;
+  }
+  .gpr-glance .gpr-section-head { margin-bottom: 16px; }
+  .gpr-glance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 24px;
+  }
+  .gpr-stat { display: flex; flex-direction: column; gap: 3px; }
+  .gpr-stat-k {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #7a8794;
+    font-weight: 600;
+  }
+  .gpr-stat-v { font-size: 0.95rem; font-weight: 600; color: #10233f; }
+  .gpr-stat-sub { font-weight: 400; color: #6a7683; font-size: 0.8rem; }
+  .gpr-tag {
+    display: inline-block;
+    margin: 0 6px 4px 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #e3f6ec;
+    color: #2b8a3e;
+    font-size: 0.75rem;
+    font-weight: 600;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Footer */
+  .gpr-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+    padding-top: 12px;
+    border-top: 1px solid #e1e6ec;
+    font-size: 0.78rem;
+    color: #8a97a3;
+  }
+}
+
+/* ===== Client-side PDF capture (html2pdf) — mirrors @media print, no browser chrome =====
+   Added to <html> while a PDF is being rendered, so the capture shows the clean
+   document (branded header + content) with no rail, top bar, or browser header. */
+html.pdf-exporting,
+html.pdf-exporting:has(body.page-workspace),
+html.pdf-exporting:has(body.page-guide) {
+  height: auto !important;
+  overflow: visible !important;
+  visibility: visible !important;
+}
+html.pdf-exporting body { background: #fff !important; }
+
+/* --- Workspace (Atlas) --- */
+html.pdf-exporting .page-workspace {
+  display: block;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+html.pdf-exporting .rail,
+html.pdf-exporting .back-link,
+html.pdf-exporting .user-slot-wrap,
+html.pdf-exporting .export-pdf-btn,
+html.pdf-exporting .auth-badge,
+html.pdf-exporting .tip-anchor,
+html.pdf-exporting .availity-actions,
+html.pdf-exporting .master-legend {
+  display: none !important;
+}
+html.pdf-exporting .main-shell { overflow: visible; background: #fff; }
+html.pdf-exporting .top-bar { display: none !important; }
+html.pdf-exporting .print-header {
+  display: block !important;
+  padding: 0 0 20px;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #1a1d21;
+}
+html.pdf-exporting .print-header .logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+html.pdf-exporting .print-logo-risa { height: 40px; width: auto; max-width: 150px; object-fit: contain; }
+html.pdf-exporting .print-logo-platform { height: 40px; width: auto; max-width: 170px; object-fit: contain; }
+html.pdf-exporting .print-title { font-size: 2.25rem; font-weight: 700; color: #111; line-height: 1.1; letter-spacing: -0.015em; }
+html.pdf-exporting .print-subtitle { margin-top: 6px; font-size: 1rem; color: #555; font-weight: 500; }
+html.pdf-exporting .print-meta { margin-top: 12px; font-size: 0.8rem; color: #999; letter-spacing: 0.01em; }
+html.pdf-exporting .form-layout { display: block; }
+html.pdf-exporting .form-scroll { overflow: visible; padding: 16px 4px 0; }
+html.pdf-exporting .panel { border: none; border-radius: 0; padding: 0 0 14px; margin: 0 0 16px; break-inside: auto; }
+html.pdf-exporting .panel-head { border-bottom: 1px solid #1a1d21; padding-bottom: 8px; }
+html.pdf-exporting .subpanel {
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 0 0 6px;
+  margin-top: 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+html.pdf-exporting .subhead { color: #111; font-weight: 700; }
+html.pdf-exporting .field { break-inside: avoid; page-break-inside: avoid; }
+html.pdf-exporting .field input,
+html.pdf-exporting .field textarea {
+  border: none;
+  border-bottom: 1px solid #999;
+  border-radius: 0;
+  background: #fff;
+  padding: 3px 2px;
+  color: #000;
+}
+html.pdf-exporting .field-label-row label { font-weight: 600; }
+html.pdf-exporting .field-status { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+/* --- Guide --- */
+html.pdf-exporting .page-guide { display: block; height: auto; max-height: none; overflow: visible; }
+html.pdf-exporting .guide-rail,
+html.pdf-exporting .home-top-nav,
+html.pdf-exporting .export-pdf-btn,
+html.pdf-exporting .guide-body-layout {
+  display: none !important;
+}
+html.pdf-exporting .guide-shell { overflow: visible; background: #fff; }
+html.pdf-exporting .guide-shell-header { display: none !important; }
+html.pdf-exporting .guide-shell-body { overflow: visible; padding: 0; }
+html.pdf-exporting .print-header-guide {
+  display: flex !important;
+  align-items: center;
+  gap: 20px;
+  padding: 0 0 16px;
+  margin-bottom: 22px;
+  border-bottom: 2px solid #1a1d21;
+  break-after: avoid;
+}
+html.pdf-exporting .print-header-guide .print-logo-risa { height: 38px; width: auto; max-width: 150px; object-fit: contain; }
+html.pdf-exporting .print-header-guide .print-title { flex: 1; text-align: center; font-size: 1.5rem; font-weight: 700; color: #111; letter-spacing: -0.01em; }
+html.pdf-exporting .print-header-guide .print-logo-platform { height: 38px; width: auto; max-width: 160px; object-fit: contain; }
+html.pdf-exporting .guide-print-reports { display: block; }
+html.pdf-exporting .guide-print-report-wrap[hidden] { display: none !important; }
+
+/* --- Guide report body (shared with @media print) --- */
+html.pdf-exporting .gpr-cols { display: flex; gap: 34px; align-items: flex-start; }
+html.pdf-exporting .gpr-col-main { flex: 1.5 1 0; min-width: 0; }
+html.pdf-exporting .gpr-col-side { flex: 1 1 0; min-width: 0; }
+html.pdf-exporting .gpr-section { margin-bottom: 24px; }
+html.pdf-exporting .gpr-section-head { break-after: avoid; page-break-after: avoid; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+html.pdf-exporting .gpr-section-head h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: #10233f; }
+html.pdf-exporting .gpr-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+html.pdf-exporting .gpr-icon svg { width: 16px; height: 16px; }
+html.pdf-exporting .gpr-icon-blue { background: #e3edff; color: #2f6fed; }
+html.pdf-exporting .gpr-icon-green { background: #e3f6ec; color: #2b8a3e; }
+html.pdf-exporting .gpr-icon-purple { background: #efe7fb; color: #7048e8; }
+html.pdf-exporting .gpr-text { margin: 0; font-size: 0.92rem; line-height: 1.6; color: #33404d; }
+html.pdf-exporting .gpr-link-list { list-style: none; margin: 0; padding: 0; }
+html.pdf-exporting .gpr-link-list li { margin-bottom: 8px; }
+html.pdf-exporting .gpr-link-list a { color: #2f6fed; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+html.pdf-exporting .gpr-table-wrap { border: 1px solid #dde3ea; border-radius: 10px; overflow: hidden; break-inside: avoid; }
+html.pdf-exporting .gpr-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.85rem; }
+html.pdf-exporting .gpr-table thead th {
+  text-align: left; padding: 11px 16px; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: #5a6b7b;
+  background: #f4f7fa; border-bottom: 1px solid #dde3ea;
+}
+html.pdf-exporting .gpr-table tbody td { padding: 11px 16px; border-bottom: 1px solid #eef1f5; color: #33404d; vertical-align: top; overflow-wrap: anywhere; }
+html.pdf-exporting .gpr-table tbody tr:last-child td { border-bottom: none; }
+html.pdf-exporting .gpr-td-label { font-weight: 600; color: #10233f; }
+html.pdf-exporting .gpr-td-value code { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.78rem; color: #33404d; }
+html.pdf-exporting .gpr-td-mono { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.76rem; color: #33404d; }
+html.pdf-exporting .gpr-nowrap { white-space: nowrap; }
+html.pdf-exporting .gpr-glance { margin-top: 8px; padding: 20px 24px; border-radius: 14px; background: #f2f8f4; break-inside: avoid; }
+html.pdf-exporting .gpr-glance .gpr-section-head { margin-bottom: 16px; }
+html.pdf-exporting .gpr-glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 24px; }
+html.pdf-exporting .gpr-stat { display: flex; flex-direction: column; gap: 3px; }
+html.pdf-exporting .gpr-stat-k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: #7a8794; font-weight: 600; }
+html.pdf-exporting .gpr-stat-v { font-size: 0.95rem; font-weight: 600; color: #10233f; }
+html.pdf-exporting .gpr-stat-sub { font-weight: 400; color: #6a7683; font-size: 0.8rem; }
+html.pdf-exporting .gpr-tag {
+  display: inline-block; margin: 0 6px 4px 0; padding: 2px 10px; border-radius: 999px;
+  background: #e3f6ec; color: #2b8a3e; font-size: 0.75rem; font-weight: 600;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+html.pdf-exporting .gpr-footer {
+  display: flex; justify-content: space-between; margin-top: 28px; padding-top: 12px;
+  border-top: 1px solid #e1e6ec; font-size: 0.78rem; color: #8a97a3;
+}
+
+/* ===== PDF export overlay (smooth UX while html2pdf renders) ===== */
+.pdf-export-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: pdfOverlayIn 0.18s ease-out;
+}
+@keyframes pdfOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pdf-export-overlay-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 40px;
+  background: #fff;
+  border: 1px solid var(--border, #dde3ea);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(16, 35, 63, 0.12);
+}
+.pdf-export-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #e3edff;
+  border-top-color: #2f6fed;
+  animation: pdfSpin 0.8s linear infinite;
+}
+@keyframes pdfSpin {
+  to { transform: rotate(360deg); }
+}
+.pdf-export-overlay-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #10233f;
+}
+.pdf-export-overlay-sub {
+  font-size: 0.8rem;
+  color: #7a8794;
+}
+.export-pdf-btn.is-exporting {
+  opacity: 0.6;
+  pointer-events: none;
 }

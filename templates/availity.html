@@ -19,15 +19,32 @@
     </div>
   </aside>
 
+  <div class="print-header" aria-hidden="true">
+    <div class="logo-row">
+      <img class="print-logo-risa" src="{{ url_for('static', filename='logos/risa_wordmark.png') }}" alt="RISA" />
+      <img class="print-logo-platform" src="{{ url_for('static', filename='logos/' ~ system ~ '.png') }}" alt="{{ title }}" />
+    </div>
+    <div class="print-title">{{ title }}</div>
+    <div class="print-subtitle">Prior Authorization Sandbox</div>
+    <div class="print-meta">Generated on <span class="print-date"></span></div>
+  </div>
+  <script>document.querySelector('.print-date').textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });</script>
+
   <div class="main-shell">
     <header class="top-bar">
       <div class="top-left">
         <a class="back-link" href="{{ url_for('home') }}">&larr; Go Back</a>
         <div class="title-user-row">
           <h1 class="form-title">{{ title }}</h1>
-          <div class="user-slot-wrap">
-            <label for="apiSelect" class="user-slot-label">Select API</label>
-            <select id="apiSelect" class="user-slot-select" aria-label="Select API"></select>
+          <div class="top-actions">
+            <div class="user-slot-wrap">
+              <label for="apiSelect" class="user-slot-label">Select API</label>
+              <select id="apiSelect" class="user-slot-select" aria-label="Select API"></select>
+            </div>
+            <button type="button" class="btn btn-outline export-pdf-btn" title="Export this {{ title }} view as PDF (no sidebar)"
+              onclick="window.exportToPdf(document.body, '{{ title }} - Prior Authorization Sandbox')">
+              &#11015; Export PDF
+            </button>
           </div>
         </div>
       </div>
@@ -58,6 +75,7 @@
     </div>
   </div>
 
+  <script src="{{ url_for('static', filename='pdf_export.js') }}"></script>
   <script type="module" src="{{ url_for('static', filename='availity_workspace.js') }}"></script>
 </body>
 </html>

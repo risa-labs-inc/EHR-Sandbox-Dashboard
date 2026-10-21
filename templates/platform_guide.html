@@ -38,6 +38,18 @@
     {% endfor %}
   </aside>
 </div>
+
+<div class="guide-print-reports" aria-hidden="true">
+  {% set ns3 = namespace(first=true) %}
+  {% for cat in categories %}
+    {% for p in cat.platforms %}
+    <div class="guide-print-report-wrap" data-guide-print="{{ p.id }}" {% if not ns3.first %}hidden{% endif %}>
+      {% include "_guide_print_report.html" %}
+    </div>
+    {% if ns3.first %}{% set ns3.first = false %}{% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>
 {% endblock %}
 
 {% block scripts %}

@@ -196,6 +196,7 @@ def workspace():
     return render_template(
         "workspace.html",
         ehr=ehr,
+        title=display_name(ehr),
         ehrs=EHRS,
         flat=flat,
         field_src=field_src,

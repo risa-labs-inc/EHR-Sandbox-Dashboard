@@ -61,4 +61,49 @@
   }
 
   window.guideActivatePlatform = activate;
+
+  // Prepare the active platform for print: branded header, single report, date.
+  function preparePrint() {
+    var panel = document.querySelector("[data-guide-panel].is-active");
+    var id = panel ? panel.dataset.guidePanel : null;
+    var name = "Platform Guide";
+    if (panel) {
+      var navBtn = document.querySelector('[data-guide-nav="' + id + '"]');
+      if (navBtn && navBtn.textContent.trim()) name = navBtn.textContent.trim();
+    }
+
+    // Header: RISA logo · "<Name> Platform Guide" · platform logo
+    var nameEl = document.getElementById("printPlatformName");
+    var logoEl = document.getElementById("printPlatformLogo");
+    if (nameEl) nameEl.textContent = name + " Platform Guide";
+    if (logoEl && panel) {
+      var logo = panel.querySelector(".guide-platform-logo");
+      if (logo) { logoEl.src = logo.src; logoEl.alt = logo.alt || ""; }
+    }
+
+    // Show only the active platform's print report.
+    document.querySelectorAll("[data-guide-print]").forEach(function (wrap) {
+      wrap.hidden = wrap.dataset.guidePrint !== id;
+    });
+
+    // Stamp the generation date in the report footer.
+    var dateStr = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    document.querySelectorAll(".gpr-date").forEach(function (el) { el.textContent = dateStr; });
+
+    return name;
+  }
+
+  var exportBtn = document.getElementById("guideExportBtn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", function () {
+      var name = preparePrint();
+      var shell = document.querySelector(".guide-shell");
+      window.exportToPdf(shell, name + " Platform Guide");
+    });
+  }
+
+  // Deep link (?export=1) — pre-activate the print report (used for headless PDF capture).
+  if (new URLSearchParams(window.location.search).get("export") === "1") {
+    preparePrint();
+  }
 })();

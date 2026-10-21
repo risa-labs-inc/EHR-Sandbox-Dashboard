@@ -58,22 +58,39 @@
     </div>
   </aside>
 
+  <div class="print-header" aria-hidden="true">
+    <div class="logo-row">
+      <img class="print-logo-risa" src="{{ url_for('static', filename='logos/risa_wordmark.png') }}" alt="RISA" />
+      <img class="print-logo-platform" src="{{ url_for('static', filename='logos/' ~ system ~ '.png') }}" alt="{{ title }}" />
+    </div>
+    <div class="print-title">{{ title }}</div>
+    <div class="print-subtitle">Prior Authorization Sandbox</div>
+    <div class="print-meta">Generated on <span class="print-date"></span></div>
+  </div>
+  <script>document.querySelector('.print-date').textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });</script>
+
   <div class="main-shell">
     <header class="top-bar">
       <div class="top-left">
         <a class="back-link" href="{{ url_for('home') }}">&larr; Go Back</a>
         <div class="title-user-row">
           <h1 class="form-title">{{ title }}</h1>
-          {% if user_options %}
-          <div class="user-slot-wrap">
-            <label for="user-slot-select" class="user-slot-label">Test user</label>
-            <select id="user-slot-select" class="user-slot-select" aria-label="Test user">
-              {% for u in user_options %}
-              <option value="{{ url_for('pharmacy', system=system) }}" {% if loop.first %}selected{% endif %}>{{ u.label }}</option>
-              {% endfor %}
-            </select>
+          <div class="top-actions">
+            {% if user_options %}
+            <div class="user-slot-wrap">
+              <label for="user-slot-select" class="user-slot-label">Test user</label>
+              <select id="user-slot-select" class="user-slot-select" aria-label="Test user">
+                {% for u in user_options %}
+                <option value="{{ url_for('pharmacy', system=system) }}" {% if loop.first %}selected{% endif %}>{{ u.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+            <button type="button" class="btn btn-outline export-pdf-btn" title="Export this {{ title }} view as PDF (no sidebar)"
+              onclick="window.exportToPdf(document.body, '{{ title }} - Prior Authorization Sandbox')">
+              &#11015; Export PDF
+            </button>
           </div>
-          {% endif %}
         </div>
       </div>
     </header>
@@ -101,6 +118,7 @@
   <script>
     window.__FIELD_SRC__ = {{ (field_src or {}) | tojson }};
   </script>
+  <script src="{{ url_for('static', filename='pdf_export.js') }}"></script>
   <script src="{{ url_for('static', filename='workspace.js') }}"></script>
 </body>
 </html>

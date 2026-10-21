@@ -53,24 +53,36 @@
         <h1>{% block page_heading %}Platform Guide{% endblock %}</h1>
         <p class="muted">{% block subtitle %}Sandbox endpoints, FHIR references, test patients, and export downloads.{% endblock %}</p>
       </div>
-      <nav class="home-top-nav" aria-label="Atlas views">
-        <a class="home-nav-link" href="{{ url_for('home') }}">Atlas</a>
-        <a class="home-nav-link active" href="{{ url_for('platform_guide') }}" aria-current="page">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z" stroke="currentColor" stroke-width="1.8"/>
-            <path d="M8 4v14a2 2 0 0 0 2 2h10" stroke="currentColor" stroke-width="1.8"/>
-            <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          Platform Guide
-        </a>
-      </nav>
+      <div class="guide-shell-header-actions">
+        <nav class="home-top-nav" aria-label="Atlas views">
+          <a class="home-nav-link" href="{{ url_for('home') }}">Atlas</a>
+          <a class="home-nav-link active" href="{{ url_for('platform_guide') }}" aria-current="page">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 4v14a2 2 0 0 0 2 2h10" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Platform Guide
+          </a>
+        </nav>
+        <button type="button" class="btn btn-outline export-pdf-btn" id="guideExportBtn" title="Export the active platform guide as PDF (no sidebar)">
+          &#11015; Export PDF
+        </button>
+      </div>
     </header>
+
+    <div class="print-header print-header-guide" aria-hidden="true">
+      <img class="print-logo-risa" src="{{ url_for('static', filename='logos/risa_wordmark.png') }}" alt="RISA" />
+      <div class="print-title" id="printPlatformName">Platform Guide</div>
+      <img class="print-logo-platform" id="printPlatformLogo" alt="" />
+    </div>
 
     <div class="guide-shell-body">
       {% block content %}{% endblock %}
     </div>
   </div>
 
+  <script src="{{ url_for('static', filename='pdf_export.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

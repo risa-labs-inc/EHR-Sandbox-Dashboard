@@ -21,3 +21,7 @@ __pycache__/
 *.swp
 .idea/
 .vscode/
+
+# Test / export artifacts (root-level PDFs & images from manual PDF testing)
+/*.pdf
+/*.png
