@@ -45,6 +45,43 @@
     });
   }
 
+  // html2pdf can emit a trailing blank page when the captured content height
+  // lands just over a page boundary. We inspect the exact canvas html2pdf used
+  // and drop any trailing page whose slice is (nearly) all white.
+  function sliceIsBlank(canvas, topPx, heightPx) {
+    if (heightPx <= 0) return true;
+    var w = 40;
+    var h = Math.max(1, Math.round(40 * heightPx / canvas.width));
+    var c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    var ctx = c.getContext("2d");
+    ctx.drawImage(canvas, 0, topPx, canvas.width, heightPx, 0, 0, w, h);
+    var d = ctx.getImageData(0, 0, w, h).data;
+    var nonWhite = 0;
+    for (var i = 0; i < d.length; i += 4) {
+      if (d[i] < 245 || d[i + 1] < 245 || d[i + 2] < 245) nonWhite++;
+    }
+    return nonWhite / (w * h) < 0.001;
+  }
+
+  // A4 portrait content height in CSS px (297 - 10 - 12 = 275mm), at the
+  // capture scale. Matches html2pdf's page slicing.
+  function pageHeightPx(scale) {
+    return (275 / 25.4) * 96 * scale;
+  }
+
+  function trimBlankPages(canvas, pdf, scale) {
+    var pageH = pageHeightPx(scale);
+    var n = pdf.getNumberOfPages();
+    for (var p = n; p >= 1; p--) {
+      var top = (p - 1) * pageH;
+      var h = Math.min(pageH, canvas.height - top);
+      if (!sliceIsBlank(canvas, top, h)) break;
+      pdf.deletePage(p);
+    }
+  }
+  window.__trimBlankPages = trimBlankPages; // exposed for testing
+
   window.exportToPdf = async function (el, filename) {
     if (!el) return;
     var btn = document.querySelector(".export-pdf-btn");
@@ -65,7 +102,7 @@
       document.documentElement.classList.add("pdf-exporting");
       await new Promise(function (r) { setTimeout(r, 120); });
 
-      await window.html2pdf().set({
+      var worker = window.html2pdf().set({
         margin: [10, 12, 12, 12],
         filename: (filename || "export") + ".pdf",
         image: { type: "jpeg", quality: 0.98 },
@@ -86,11 +123,18 @@
             ".field",
             ".panel-head",
             ".gpr-research",
-            ".gpr-table tr",
+            // Tall rows (e.g. the OAuth scopes list) may split across pages so
+            // they don't leave a big blank gap on the previous page.
+            ".gpr-table tr:not(.gpr-row-break)",
             ".gpr-glance"
           ]
         }
-      }).from(el).save();
+      }).from(el);
+      await worker.toCanvas();
+      var canvas = worker.prop.canvas;
+      var pdf = await worker.toPdf().get("pdf");
+      trimBlankPages(canvas, pdf, 2);
+      pdf.save((filename || "export") + ".pdf");
     } catch (err) {
       console.error("PDF export failed:", err);
       window.alert("PDF export failed: " + (err && err.message ? err.message : err));
