@@ -86,6 +86,7 @@
             ".field",
             ".panel-head",
             ".gpr-section-head",
+            ".gpr-research",
             ".gpr-table tr",
             ".gpr-table-wrap",
             ".gpr-glance"
